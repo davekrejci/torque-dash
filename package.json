@@ -1,8 +1,8 @@
 {
-  "name": "server",
+  "name": "torque-dash",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "start": "nodemon src/app.js",
     "lint": "./node_modules/.bin/eslint **/*.js"
@@ -16,7 +16,12 @@
     "morgan": "^1.9.1"
   },
   "dependencies": {
+    "bcrypt": "^3.0.4",
     "express": "^4.16.4",
-    "express-handlebars": "^3.0.2"
+    "express-handlebars": "^3.0.2",
+    "joi": "^14.3.1",
+    "mysql2": "^1.6.5",
+    "passport-local": "^1.0.0",
+    "sequelize": "^4.43.0"
   }
 }
