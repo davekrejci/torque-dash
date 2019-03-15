@@ -3,7 +3,9 @@ const router = express.Router();
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const User = require('../models').User;
+const passport = require('passport');
 
+// Register Handle
 router.post('/register', async (req, res) => {
     try{
 
@@ -35,44 +37,31 @@ router.post('/register', async (req, res) => {
         });
 
         // Send response
-        res.render('login', {
-            success: 'Account created. You may now log in.'
-        });
+        req.flash('success', 'Account created. You may now log in.');
+        res.redirect('/login');
     }
     catch(err){
         console.log('Error:', err);
     }
 });
-router.post('/login', async (req, res) => {
-    try{
-        // Check if user exists
-        let user = await User.findOne({
-            where: { email: req.body.email }
-        });
-        console.log('found user:', user);
-        if(!user){
-            res.render('login', {
-                error: 'Invalid email or password.'
-            });
-        } 
-        else{
-            // Validate password
-            let validPassword = await bcrypt.compare(req.body.password, user.password);
-            if(!validPassword){
-                res.render('login', {
-                    error: 'Invalid email or password.'
-                })
-            }
-            
-            // Send response
-            res.send(true);
-        }
-    }
-    catch(err){
-        console.log('Error:', err.message);
-    }
+
+// Login Handle
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/login',
+        failureFlash: true,
+    })(req, res, next);
 });
 
+// Logout Handle
+router.get('/logout', (req, res) => {
+    req.logout();
+    req.flash('success', 'You have been logged out.');
+    res.redirect('/login');
+});
+
+// User data Validation
 function validateUser(user){
     const schema = {
         email: Joi.string().required().email({ minDomainAtoms: 2 }).error(new Error('Please provide a valid email.')),

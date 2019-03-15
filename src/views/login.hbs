@@ -5,7 +5,10 @@
 			  	<div class="mb-5">
 			    	<h3 class="panel-title mb-3">Welcome</h3>
                     {{#if success}}
-                        <p class="text-success">{{success}}</p>
+						<div class="alert alert-dismissible alert-info">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							{{success}}
+						</div>
                     {{else}}
                         <p>Please log in to continue</p>
                     {{/if}}

@@ -12,12 +12,31 @@ const users = require('./routes/users.js');
 const { sequelize } = require('./models');
 const config = require('./config/config');
 const exphbs = require('express-handlebars');
+const flash = require('connect-flash');
+const session = require('express-session');
+const passport = require('passport');
+require('./config/passport')(passport); 
 
 
 // Configure middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(morgan('combined'));
+
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+});
 
 // Set templating engine
 app.engine('hbs', exphbs({defaultLayout: 'main', extname: 'hbs'}));
@@ -41,7 +60,7 @@ sequelize.sync({force: true})
         app.listen(config.port, () => console.log(`Listening on port ${config.port}`));
 
     }).catch((err) => {
-        console.log('Error connecting to the database:', err);
+        console.log('Error connecting to the database:', err.message);
     });
 
 
