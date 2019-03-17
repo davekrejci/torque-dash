@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary d-flex">
+    {{#if loggedIn}}
+    <div class="p-2">
+        <button type="button" id="sidebarCollapse" class="btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+    {{/if}}
+    <div class="navbar-brand mr-auto p-2">
+        <a class="navbar-brand" href="/">torque<b>DASH</b></a>
+    </div>
+    {{#if loggedIn}}
+    <div class="p-2">
+        <div class="dropdown">
+            <a class="btn dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                {{userEmail}}
+                <span>&nbsp;</span>
+                <i class="fas fa-user-circle"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="/users/logout"><i class="fas fa-sign-out-alt"></i> &nbsp; Logout</a>
+                <a class="dropdown-item disabled" href=""><i class="fas fa-cog"></i> &nbsp; Settings</a>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+</nav>

@@ -1,0 +1,29 @@
+<div class="container-fluid wrapper">
+  {{> sidebar }}
+  <!-- Content -->
+  <div class="dashcontainer container-fluid">
+    <div id="controls">
+      <form accept-charset="UTF-8" role="form" action="" method="">
+        <fieldset>
+          <div class="form-group">
+            <label for="sessionSelect">Session select</label>
+            <select class="form-control selectpicker" data-live-search="true">
+              <option value="" data-tokens="March 3 2019">872131718723</option>
+              <option value="" data-tokens="March 5 2019">871237123213</option>
+            </select>
+
+          </div>
+          <div class="form-group">
+            <label for="pidSelect">PID select</label>
+            <select class="form-control selectpicker" multiple>
+              <option value="">OBD RPM</option>
+              <option value="">OBD Speed</option>
+            </select>
+          </div>
+          <input class="mt-4 mb-4 btn btn-lg btn-success btn-block" type="submit" value="Chart">
+        </fieldset>
+      </form>
+    </div>
+    <div id='map'></div>
+  </div>
+</div>

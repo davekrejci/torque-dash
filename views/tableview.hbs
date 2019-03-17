@@ -1,0 +1,34 @@
+<div class="container-fluid wrapper">
+    {{> sidebar }}
+    <!-- Content -->
+    <div class="container-fluid p-3">
+        <table class="table" id="logTable">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Email</th>
+                    <th>v</th>
+                    <th>session</th>
+                    <th>id</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="data">
+                {{#each logs}}
+                <tr>
+                    <td>{{this.eml}}</td>
+                    <td>{{this.v}}</td>
+                    <td>{{this.session}}</td>
+                    <td>{{this.t_id}}</td>
+                    <td>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#editCustomerModal" data-id="{{this.id}}"
+                            data-name="{{this.name}}" data-address="{{this.address}}" data-email="{{this.email}}"
+                            data-phone="{{this.phone}}" data-discount="{{this.discount}}">Edit</button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#deleteCustomerModal" data-id="{{this.id}}"
+                            data-name="{{this.name}}">Delete</button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
