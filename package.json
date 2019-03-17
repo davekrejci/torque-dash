@@ -2,18 +2,19 @@
   "name": "torque-dash",
   "version": "1.0.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon src/app.js",
-    "lint": "./node_modules/.bin/eslint **/*.js"
+    "start": "nodemon app.js",
+    "lint": "./node_modules/.bin/eslint **/*.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^5.14.1",
-    "nodemon": "^1.18.10",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.10"
   },
   "dependencies": {
     "bcrypt": "^3.0.4",
