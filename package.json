@@ -17,12 +17,15 @@
     "nodemon": "^1.18.10"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bcrypt": "^3.0.4",
     "connect-flash": "^0.1.1",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
     "express-session": "^1.15.6",
     "joi": "^14.3.1",
+    "moment": "^2.24.0",
     "mysql2": "^1.6.5",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",

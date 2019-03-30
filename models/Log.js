@@ -1,25 +1,36 @@
-module.exports = (sequelize, DataTypes) => 
-    sequelize.define('Log', {
-        eml: {
-            type: DataTypes.STRING(50)
-        },
-        v: {
-            type: DataTypes.STRING(1)
-        },
-        session: {
-            type: DataTypes.STRING(15)
-        },
-        t_id: {
-            type: DataTypes.STRING(32)
-        },
-        time: {
-            type: DataTypes.STRING(15)
-        },
-        kc: {
-            type: DataTypes.FLOAT
-        },
-        kd: {
-            type: DataTypes.FLOAT
-        },
+const axios = require('axios');
 
-    });
+module.exports = (sequelize, DataTypes) => {
+    // define Log
+    const Log = sequelize.define('Log', {
+        timestamp: {
+            type: DataTypes.STRING()
+        },
+        engineRPM: {
+            type: DataTypes.FLOAT
+        },
+        speed: {
+            type: DataTypes.FLOAT
+        },
+        gpsLongitude: {
+            type: DataTypes.FLOAT
+        },
+        gpsLatitude: {
+            type: DataTypes.FLOAT
+        }
+
+    }, {});
+
+    // Instance method for reverse geocode - get address from coordinates
+    Log.prototype.getAddress = async function() {
+        try{
+            let response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${this.gpsLatitude}&lon=${this.gpsLongitude}`);
+            return response.data.address
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
+    return Log;
+};

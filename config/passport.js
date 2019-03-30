@@ -1,5 +1,4 @@
 const LocalStrategy = require('passport-local');
-const bcrypt = require('bcrypt');
 const User = require('../models').User;
 
 module.exports = function(passport){
@@ -13,20 +12,16 @@ module.exports = function(passport){
                     return done(null, false, { message: 'Incorrect username or password.' });
                 }
             }
-            catch(err){
-                console.log(err);
-            }
+            catch(err){ console.log(err); }
 
-            // Match password
-            bcrypt.compare(password, user.password, (err, isMatch) => {
-                if(err) throw err;
-                if(isMatch){
-                    return done(null, user);
-                }
-                else{
-                    return done(null, false, { message: 'Incorrect username or password.' });
-                }
-            })
+            // Compare password
+            let isMatch = await user.comparePassword(password);
+            if(isMatch){
+                return done(null, user);
+            }
+            else{
+                return done(null, false, { message: 'Incorrect username or password.' });
+            }
         })
     );
 

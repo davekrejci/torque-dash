@@ -2,13 +2,8 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-// const morgan = require('morgan');
-const dashboard = require('./routes/web/dashboard.js');
-const login = require('./routes/web/login.js');
-const register = require('./routes/web/register.js');
-const upload = require('./routes/api/upload.js');
-const logs = require('./routes/api/logs.js');
-const users = require('./routes/api/users.js');
+const cors = require('cors');
+// const logger = require('morgan');
 const { sequelize } = require('./models');
 const config = require('./config/config');
 const exphbs = require('express-handlebars');
@@ -17,12 +12,11 @@ const session = require('express-session');
 const passport = require('passport');
 require('./config/passport')(passport); 
 
-
 // Configure middleware
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(morgan('combined'));
-
+// app.use(logger('combined'));
 app.use(session({
     secret: 'secret',
     resave: true,
@@ -44,15 +38,17 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '/views'));
 
 // Define routes
-app.use('/', dashboard);
-app.use('/login', login);
-app.use('/register', register);
-app.use('/upload', upload);
-app.use('/logs', logs);
-app.use('/users', users);
+app.use('/', require('./routes/web/dashboard.js'));
+app.use('/login', require('./routes/web/login.js'));
+app.use('/register', require('./routes/web/register.js'));
+app.use('/upload', require('./routes/api/upload.js'));
+app.use('/sessions', require('./routes/api/sessions.js'));
+app.use('/users', require('./routes/api/users.js'));
 
 // Connect to database and sync models
-sequelize.sync()
+sequelize.sync(
+    // {force:true}
+    )
     .then(() => {
         console.log('Connection to database successfully established');  
         

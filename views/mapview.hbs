@@ -4,26 +4,48 @@
   <div class="dashcontainer container-fluid">
     <div id="controls">
       <form accept-charset="UTF-8" role="form" action="" method="">
-        <fieldset>
-          <div class="form-group">
-            <label for="sessionSelect">Session select</label>
-            <select class="form-control selectpicker" data-live-search="true">
-              <option value="" data-tokens="March 3 2019">872131718723</option>
-              <option value="" data-tokens="March 5 2019">871237123213</option>
-            </select>
+                    <fieldset>
+                    <div class="form-group">
+                        <label for="sessionSelect">Session select</label>
+                        <select class="form-control selectpicker h-50" data-live-search="true">
+                            {{#each sessions}}
+                                <option data-content="
+                                    <div class='p-3'>
+                                        <p><strong>Session:</strong> {{this.session}}</p>
+                                        <p><strong>Start:</strong> {{this.start}}</p>
+                                        <p><strong>End:</strong> {{this.end}}</p>
+                                        <p><strong>Duration:</strong> {{this.duration}}</p>
+                                    </div>                
+                                "></option>
+                                <option data-divider="true"></option>
 
-          </div>
-          <div class="form-group">
-            <label for="pidSelect">PID select</label>
-            <select class="form-control selectpicker" multiple>
-              <option value="">OBD RPM</option>
-              <option value="">OBD Speed</option>
-            </select>
-          </div>
-          <input class="mt-4 mb-4 btn btn-lg btn-success btn-block" type="submit" value="Chart">
-        </fieldset>
+                                {{!-- <option value="" data-tokens="date">
+                                    <div class="card">
+                                        <p>Session: {{this.session}}</p>
+                                        <p>Start: {{this.start}}</p>
+                                        <p>End: {{this.end}}</p>
+                                        <p>Duration: {{this.duration}}</p>
+                                    </div>
+                                </option> --}}
+                            {{/each}}
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="pidSelect">PID select</label>
+                        <select class="form-control selectpicker" multiple>
+                            <option data-content="<span class='badge badge-pill p-2 badge-primary'>OBD Speed</span>">OBD Speed</option>
+                            <option data-content="<span class='badge badge-success'>Engine RPM</span>">Engine RPM</option>
+                        </select>
+                    </div>
+                    <input class="mt-4 mb-4 btn btn-lg btn-success btn-block" type="submit" value="Chart">
+                    </fieldset>
       </form>
+      <div class="container">
+                    <canvas id="testChart" width="400" height="400"></canvas>
+                </div>
     </div>
     <div id='map'></div>
+    </div>
   </div>
 </div>

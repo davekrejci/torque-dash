@@ -11,6 +11,7 @@ const sequelize = new Sequelize(
     config.db.options,
 );
 
+// Loop through all files in models folder and add them to db object
 fs
  .readdirSync(__dirname)
  .filter((file) => 
@@ -21,6 +22,7 @@ fs
      db[model.name] = model;
  });
 
+ // Create associations for models
  Object.keys(db).forEach(modelName => {
     if (db[modelName].associate) {
       db[modelName].associate(db);

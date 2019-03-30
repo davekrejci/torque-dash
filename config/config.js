@@ -8,7 +8,7 @@ let config = {
             dialect: process.env.DIALECT || 'mysql',
             host: process.env.HOST || 'localhost',
             operatorsAliases: false,
-            logging: false
+            logging: true
         }
     }
 };
