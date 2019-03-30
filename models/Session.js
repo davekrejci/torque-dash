@@ -9,6 +9,14 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,
             default: ''
         },
+        startLocation: {
+            type: DataTypes.STRING,
+            default: ''
+        },
+        endLocation: {
+            type: DataTypes.STRING,
+            default: ''
+        }
     }, {});
 
     Session.associate = function (models) {
