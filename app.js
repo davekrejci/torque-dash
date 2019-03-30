@@ -8,7 +8,7 @@ const { sequelize } = require('./models');
 const config = require('./config/config');
 const exphbs = require('express-handlebars');
 const flash = require('connect-flash');
-const session = require('express-session');
+const session = require('cookie-session');
 const passport = require('passport');
 require('./config/passport')(passport); 
 
