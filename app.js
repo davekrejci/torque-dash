@@ -10,7 +10,7 @@ const exphbs = require('express-handlebars');
 const flash = require('connect-flash');
 const session = require('cookie-session');
 const passport = require('passport');
-const User = require('./models').User;
+// const User = require('./models').User;
 require('./config/passport')(passport); 
 
 // Configure middleware
@@ -39,24 +39,26 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '/views'));
 
 // Define routes
+// Serve web pages
 app.use('/', require('./routes/web/dashboard.js'));
 app.use('/login', require('./routes/web/login.js'));
 app.use('/register', require('./routes/web/register.js'));
-app.use('/upload', require('./routes/api/upload.js'));
-app.use('/sessions', require('./routes/api/sessions.js'));
-app.use('/users', require('./routes/api/users.js'));
+// Api routes
+app.use('/api/upload', require('./routes/api/upload.js'));
+app.use('/api/sessions', require('./routes/api/sessions.js'));
+app.use('/api/users', require('./routes/api/users.js'));
 
 // Connect to database and sync models
 sequelize.sync(
-    {force:true}
+    // {force:true}
     )
     .then(() => {
         console.log('Connection to database successfully established');  
         
-        User.create({
-            email: 'test@contoso.com',
-            password : 'heslo'
-        });
+        // User.create({
+        //     email: 'test@contoso.com',
+        //     password : 'heslo'
+        // });
 
         // Start server
         app.listen(config.port, () => console.log(`Listening on port ${config.port}`));
