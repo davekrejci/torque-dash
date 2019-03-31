@@ -10,6 +10,7 @@ const exphbs = require('express-handlebars');
 const flash = require('connect-flash');
 const session = require('cookie-session');
 const passport = require('passport');
+const User = require('./models').User;
 require('./config/passport')(passport); 
 
 // Configure middleware
@@ -47,11 +48,16 @@ app.use('/users', require('./routes/api/users.js'));
 
 // Connect to database and sync models
 sequelize.sync(
-    // {force:true}
+    {force:true}
     )
     .then(() => {
         console.log('Connection to database successfully established');  
         
+        User.create({
+            email: 'test@contoso.com',
+            password : 'heslo'
+        });
+
         // Start server
         app.listen(config.port, () => console.log(`Listening on port ${config.port}`));
 
