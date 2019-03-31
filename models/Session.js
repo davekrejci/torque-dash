@@ -3,10 +3,10 @@ module.exports = (sequelize, DataTypes) => {
     const Session = sequelize.define('Session', {
         sessionId : {
             type: DataTypes.STRING,
+            unique: true
         },
         name: {
             type: DataTypes.STRING,
-            unique: true,
             default: ''
         },
         startLocation: {
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
 
     Session.associate = function (models) {
-        Session.hasMany(models.Log, { as: 'Logs', foreignKey: 'sessionId' });
+        Session.hasMany(models.Log, { as: 'Logs', foreignKey: { name: 'sessionId'} });
     };
 
     return Session;

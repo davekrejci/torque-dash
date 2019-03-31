@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     // define Log
     const Log = sequelize.define('Log', {
         timestamp: {
-            type: DataTypes.STRING()
+            type: DataTypes.STRING
         },
         engineRPM: {
             type: DataTypes.FLOAT
