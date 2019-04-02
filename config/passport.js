@@ -35,9 +35,6 @@ module.exports = function(passport){
             if(user){
                 done(null, user.get());
             }
-            else{
-                done(user.errors, null);
-            }
         }catch(err) {
             console.log(err);
         }
