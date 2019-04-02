@@ -11,37 +11,43 @@ router.get('/', (req, res) => {
 
 router.get('/dashboard', authenticate, async (req, res) => {
     
-    let user = await User.findOne({ where: { email: req.user.email }});
-    let sessions = await user.getSessions();
-    sessions = await getPageData(sessions);
-    
-    res.render('dashboard', {
-        sessions: sessions,
-        dashboard: true,
-        overview: true,
-        userEmail: req.user.email,
-        loggedIn: true
-    });
+    try{
+        let user = await User.findOne({ where: { email: req.user.email }});
+        let sessions = await user.getSessions();
+        sessions = await getPageData(sessions);
+        
+        res.render('dashboard', {
+            sessions: sessions,
+            dashboard: true,
+            overview: true,
+            userEmail: req.user.email,
+            loggedIn: true
+        });
+    }
+    catch(err) {
+        console.log(err);
+    }
 });
 
 router.get('/dashboard/mapview', authenticate, async (req, res) => {
     //Get sessions from db
 
-    let user = await User.findOne({ where: { email: req.user.email }});
-    let sessions = await user.getSessions();
-    sessions = await getPageData(sessions);
-    console.log(sessions);    
-
-    // TODO: move functionality to model 
-    // let sessions = User.getUserSessions(req.user);
+    try{
+        let user = await User.findOne({ where: { email: req.user.email }});
+        let sessions = await user.getSessions();
+        sessions = await getPageData(sessions);
     
-    res.render('mapview', {
-        dashboard: true,
-        mapview: true,
-        sessions: sessions,
-        userEmail: req.user.email,
-        loggedIn: true
-    });
+        res.render('mapview', {
+            dashboard: true,
+            mapview: true,
+            sessions: sessions,
+            userEmail: req.user.email,
+            loggedIn: true
+        });
+    }
+    catch(err) {
+        console.log(err);
+    }
 });
 
 router.get('/dashboard/chartview', authenticate, async (req, res) => {
