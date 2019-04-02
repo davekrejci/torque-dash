@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
             }
         });
         if(log) return res.status(403).send('Duplicate entry.');
-        
+
         // Create log in database
         log = await Log.create({
             sessionId: session[0].dataValues.id,

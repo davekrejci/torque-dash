@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
             return response.data.address
         }
         catch(err){
-            console.log(err);
+            console.log(err.message);
         }
     }
 

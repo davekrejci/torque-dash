@@ -7,17 +7,19 @@ module.exports = (sequelize, DataTypes) => {
         },
         name: {
             type: DataTypes.STRING,
-            default: ''
+            default: 'Unnamed session'
         },
         startLocation: {
             type: DataTypes.STRING,
-            default: ''
+            default: '-'
         },
         endLocation: {
             type: DataTypes.STRING,
-            default: ''
+            default: '-'
         }
     }, {});
+
+    
 
     Session.associate = function (models) {
         Session.hasMany(models.Log, { as: 'Logs', foreignKey: { name: 'sessionId'} });

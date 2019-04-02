@@ -13,37 +13,10 @@ router.get('/dashboard', authenticate, async (req, res) => {
     
     let user = await User.findOne({ where: { email: req.user.email }});
     let sessions = await user.getSessions();
-
-    let sessionList = [];
-    async function getPageData() {
-        for (const session of sessions) {
-            const sessionStart = await Log.min('timestamp', { where: {sessionId: session.id}});
-            const sessionEnd = await Log.max('timestamp', { where: {sessionId: session.id}});            
-            const firstLog = await Log.findOne({ where: {timestamp: sessionStart }});
-            const lastLog = await Log.findOne({ where: {timestamp: sessionEnd }});
-            let duration = moment.duration(sessionEnd - sessionStart);
-
-
-            sessionList.push({
-                id: session.id,
-                name: session.name,
-                startDate: moment(+sessionStart).format("DD.MM.YYYY HH:mm:ss"),
-                endDate: moment(+sessionEnd).format("DD.MM.YYYY HH:mm:ss"),
-                duration: {
-                    days: duration.days(),
-                    hours: duration.hours(),
-                    minutes: duration.minutes(),
-                    seconds: duration.seconds()
-                },
-                startLocation: await firstLog.getAddress(),
-                endLocation: await lastLog.getAddress()
-            });
-        }
-    }
-    await getPageData();
+    sessions = await getPageData(sessions);
     
     res.render('dashboard', {
-        sessions: sessionList,
+        sessions: sessions,
         dashboard: true,
         overview: true,
         userEmail: req.user.email,
@@ -54,10 +27,13 @@ router.get('/dashboard', authenticate, async (req, res) => {
 router.get('/dashboard/mapview', authenticate, async (req, res) => {
     //Get sessions from db
 
-    // TODO: move functionality to model 
-    // let sessions = Log.getUserSessions(req.user);
+    let user = await User.findOne({ where: { email: req.user.email }});
+    let sessions = await user.getSessions();
+    sessions = await getPageData(sessions);
+    console.log(sessions);    
 
-    var sessions = [];
+    // TODO: move functionality to model 
+    // let sessions = User.getUserSessions(req.user);
     
     res.render('mapview', {
         dashboard: true,
@@ -77,6 +53,33 @@ router.get('/dashboard/chartview', authenticate, async (req, res) => {
         loggedIn: true
     });
 });
+
+async function getPageData(sessions) {
+    let sessionList = new Array;
+    for (const session of sessions) {
+        const sessionStart = await Log.min('timestamp', { where: {sessionId: session.id}});
+        const sessionEnd = await Log.max('timestamp', { where: {sessionId: session.id}});            
+        const firstLog = await Log.findOne({ where: {timestamp: sessionStart }});
+        const lastLog = await Log.findOne({ where: {timestamp: sessionEnd }});
+        let duration = moment.duration(sessionEnd - sessionStart);
+
+        sessionList.push({
+            id: session.id,
+            name: session.name,
+            startDate: moment(+sessionStart).format("DD.MM.YYYY HH:mm:ss"),
+            endDate: moment(+sessionEnd).format("DD.MM.YYYY HH:mm:ss"),
+            duration: {
+                days: duration.days(),
+                hours: duration.hours(),
+                minutes: duration.minutes(),
+                seconds: duration.seconds()
+            },
+            startLocation: await firstLog.getAddress(),
+            endLocation: await lastLog.getAddress()
+        });
+    }
+    return sessionList;
+}
 
 
 module.exports = router;

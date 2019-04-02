@@ -23,7 +23,7 @@ html, body{
     /* background-color: var(--light-color); */
     width: 30%;
     height: 100%;
-    padding: 20px;
+    padding: 10px;
 }
 .dashcontainer{
     padding: 0;
@@ -63,6 +63,7 @@ th {
     transition: all 0.3s;
     padding: 10px;
     margin-left: 0px;
+    
 }
 #sidebar.active {
     margin-left: -250px;
@@ -214,6 +215,21 @@ input[type="color"]:focus,
     border-width: 5px 5px 0;
     border-top-color: var(--accent-color);
 }
+.btn-accent {
+    background-color: var(--accent-color);
+    color: #eee;
+}
+.btn-accent:hover {
+    filter: brightness(95%);
+    color: #eee;
+}
+a.dropdown-item {
+    color: #333;
+}
+a.dropdown-item.active {
+    background-color: #eee;
+    color: var(--accent-color);
+}
 
 /*******************************
         Modal Confirm
@@ -298,3 +314,57 @@ input[type="color"]:focus,
 .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
     background: #ee3535;
 }
+.map-marker {
+    background-color: #eee;
+    border: 4px solid var(--accent-color);
+    border-radius: 50%;
+}
+
+.table-curved {
+    color: #333;
+}
+.table-curved {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.table-curved {
+    border: solid transparent 1px;
+    border-radius: 6px;
+    border-left:0px;
+}
+.table-curved td, .table-curved th {
+    border-left: 1px solid transparent;
+    border-top: 1px solid transparent;
+}
+.table-curved th:first-child {
+    border-radius: 6px 0 0 0;
+}
+.table-curved th:last-child {
+    border-radius: 0 6px 0 0;
+}
+.table-curved th:only-child{
+    border-radius: 6px 6px 0 0;
+}
+.table-curved tr:last-child td:first-child {
+    border-radius: 0 0 0 6px;
+}
+.table-curved tr:last-child td:last-child {
+    border-radius: 0 0 6px 0;
+}
+.table-curved tr td {
+    border-bottom: 1px solid rgb(235, 235, 235);;
+}
+
+.custom-map-control {
+    border: 2px solid rgba(0,0,0,0.2);
+    background-clip: padding-box;
+    border-radius: 5px;
+}
+.map-card {
+    background-color: rgba(255,255,255,255,0.2);
+}
+
+#map > .card {
+    background-color: red;
+}
+

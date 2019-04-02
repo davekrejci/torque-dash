@@ -3,49 +3,124 @@
   <!-- Content -->
   <div class="dashcontainer container-fluid">
     <div id="controls">
-      <form accept-charset="UTF-8" role="form" action="" method="">
-                    <fieldset>
                     <div class="form-group">
-                        <label for="sessionSelect">Session select</label>
-                        <select class="form-control selectpicker h-50" data-live-search="true">
-                            {{#each sessions}}
-                                <option data-content="
-                                    <div class='p-3'>
-                                        <p><strong>Session:</strong> {{this.session}}</p>
-                                        <p><strong>Start:</strong> {{this.start}}</p>
-                                        <p><strong>End:</strong> {{this.end}}</p>
-                                        <p><strong>Duration:</strong> {{this.duration}}</p>
-                                    </div>                
-                                "></option>
-                                <option data-divider="true"></option>
-
-                                {{!-- <option value="" data-tokens="date">
-                                    <div class="card">
-                                        <p>Session: {{this.session}}</p>
-                                        <p>Start: {{this.start}}</p>
-                                        <p>End: {{this.end}}</p>
-                                        <p>Duration: {{this.duration}}</p>
-                                    </div>
-                                </option> --}}
-                            {{/each}}
-                        </select>
-
+                        <div id="sessionName" class="badge badge-light p-2 w-100 mb-2">No session selected</div>
+                        
+                        <button id="sessionSelectButton" data-toggle="modal" data-target="#selectSessionModal" class="w-100 btn btn-primary">Select Session</button>
                     </div>
                     <div class="form-group">
-                        <label for="pidSelect">PID select</label>
+                        <hr>
                         <select class="form-control selectpicker" multiple>
                             <option data-content="<span class='badge badge-pill p-2 badge-primary'>OBD Speed</span>">OBD Speed</option>
                             <option data-content="<span class='badge badge-success'>Engine RPM</span>">Engine RPM</option>
                         </select>
                     </div>
-                    <input class="mt-4 mb-4 btn btn-lg btn-success btn-block" type="submit" value="Chart">
-                    </fieldset>
-      </form>
       <div class="container">
                     <canvas id="testChart" width="400" height="400"></canvas>
                 </div>
     </div>
+    
     <div id='map'></div>
     </div>
   </div>
+</div>
+
+<div class="modal fade" id="selectSessionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                Select a session
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+        <table class="table table-curved table-striped table-bordered dt-responsive display nowrap" id="logTable" style="width:100%">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>Name</th>
+                    <th>Started</th>
+                    <th>Ended</th>
+                    <th>Duration</th>
+                    <th>Starting Location</th>
+                    <th>End Location</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="data">
+                {{#each sessions}}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.startDate}}</td>
+                    <td>{{this.endDate}}</td>
+                    <td>
+                            {{#if this.duration.days}}
+                            {{this.duration.days}} days
+                            {{/if}}
+                            {{#if this.duration.hours}}
+                            {{this.duration.hours}}h
+                            {{/if}}
+                            {{#if this.duration.minutes}}
+                            {{this.duration.minutes}}min
+                            {{/if}}
+                            {{#if this.duration.seconds}}
+                            {{this.duration.seconds}}sec
+                            {{/if}}
+
+                    </td>
+                    <td>
+                            {{#if this.startLocation.road}}
+                            {{this.startLocation.road}}
+                            {{/if}}
+                            {{#if this.startLocation.house_number}}
+                            {{this.startLocation.house_number}} <br>
+                            {{/if}}
+                            {{#if this.startLocation.town}}
+                            {{this.startLocation.town}}
+                            {{/if}}
+                            {{#if this.startLocation.state}}
+                            {{this.startLocation.state}} <br>
+                            {{/if}}
+                            {{#if this.startLocation.postcode}}
+                            {{this.startLocation.postcode}}
+                            {{/if}}
+                            {{#if this.startLocation.country}}
+                            {{this.startLocation.country}}
+                            {{/if}}
+                    </td>
+                    <td>
+                            {{#if this.endLocation.road}}
+                            {{this.endLocation.road}}
+                            {{/if}}
+                            {{#if this.endLocation.house_number}}
+                            {{this.endLocation.house_number}} <br>
+                            {{/if}}
+                            {{#if this.endLocation.town}}
+                            {{this.endLocation.town}}
+                            {{/if}}
+                            {{#if this.endLocation.state}}
+                            {{this.endLocation.state}} <br>
+                            {{/if}}
+                            {{#if this.endLocation.postcode}}
+                            {{this.endLocation.postcode}}
+                            {{/if}}
+                            {{#if this.endLocation.country}}
+                            {{this.endLocation.country}}
+                            {{/if}}
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-primary m-2" onclick="selectSession({{this.id}})">Select</button>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -19,27 +19,7 @@ $(document).ready(function () {
       })
 });
 
-// ------------------- DELETE MODAL -------------------- //
 
-$('#deleteSessionModal').on('show.bs.modal', function (event) {
-    let button = $(event.relatedTarget); // Button that triggered the modal
-    let id = button.data('id'); // Extract info from data-* attributes
-    let modal = $(this);
-    modal.find('.modal-footer #modalDeleteButton').attr("onclick", "deleteSession('" + id + "')");
-});
 
-function deleteSession(id) {
-    $('#deleteSessionModal').modal('hide');
-    $.ajax({
-            type: 'DELETE',
-            url: `/customers/${id}`,
-        })
-        .done(function (response) {
-            window.location.reload();
-        })
-        .fail(function (err) {
-            // Show alert message
-            console.log(err);
-        });
-}
+
 
