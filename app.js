@@ -19,9 +19,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(logger('combined'));
 app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
+    secret: 'supersecretkey123',
+    cookie: {
+        secure: true,
+        httpOnly: true,
+        expires: new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+      }
 }));
 app.use(flash());
 app.use(passport.initialize());
