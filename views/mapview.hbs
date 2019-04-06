@@ -2,25 +2,17 @@
   {{> sidebar }}
   <!-- Content -->
   <div class="dashcontainer container-fluid">
-    <div id="controls">
-                    <div class="form-group">
-                        <div id="sessionName" class="badge badge-light p-2 w-100 mb-2">No session selected</div>
-                        
-                        <button id="sessionSelectButton" data-toggle="modal" data-target="#selectSessionModal" class="w-100 btn btn-primary">Select Session</button>
-                    </div>
-                    <div class="form-group">
-                        <hr>
-                        <select class="form-control selectpicker" multiple>
-                            <option data-content="<span class='badge badge-pill p-2 badge-primary'>OBD Speed</span>">OBD Speed</option>
-                            <option data-content="<span class='badge badge-success'>Engine RPM</span>">Engine RPM</option>
-                        </select>
-                    </div>
-      <div class="container">
-                    <canvas id="testChart" width="400" height="400"></canvas>
-                </div>
-    </div>
-    
-    <div id='map'></div>
+        <div id='map' class="split content"></div>
+        <div id="graph" class="split content p-3"> 
+            <select id='pidSelectChart' class="form-control selectpicker" multiple>
+                {{!-- <option data-content="<span class='badge badge-pill p-2 badge-primary'>OBD Speed</span>">OBD Speed</option>
+                <option data-content="<span class='badge badge-success'>Engine RPM</span>">Engine RPM</option> --}}
+            </select>
+            <div class="chart-container row">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+
     </div>
   </div>
 </div>

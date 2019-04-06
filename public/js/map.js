@@ -56,19 +56,27 @@ class Map {
               position: 'topleft'
             },
             onAdd: function (map) {
-                let container = L.DomUtil.create('div', 'w-75 p-3');
+                let container = L.DomUtil.create('div', 'w-75');
 
-                // let sessionSelect = L.DomUtil.create('button', 'btn btn-light custom-map-control my-1');
-                // sessionSelect.id = 'sessionSelectButton';
-                // sessionSelect.dataset.toggle = 'modal';   
-                // sessionSelect.dataset.target = '#selectSessionModal';
-                // sessionSelect.innerText = 'Select Session';
+                // <div id="sessionName" class="badge badge-light p-2 w-100 mb-2">No session selected</div>
 
-                let pidSelect = L.DomUtil.create('select', 'form-input selectpicker custom-map-control my-1');
+                let sessionName = L.DomUtil.create('div', 'badge badge-light p-2 custom-map-control my-1 w-75 font-weight-bold text-uppercase');
+                sessionName.innerText = 'No session selected';
+                sessionName.id = 'sessionName';
+
+                let sessionSelect = L.DomUtil.create('button', 'btn btn-light custom-map-control my-1 w-75 ');
+                sessionSelect.id = 'sessionSelectButton';
+                sessionSelect.dataset.toggle = 'modal';   
+                sessionSelect.dataset.target = '#selectSessionModal';
+                sessionSelect.innerText = 'Select Session';
+
+                let pidSelect = L.DomUtil.create('select', 'form-input selectpicker custom-map-control my-1 w-75');
                 pidSelect.id = 'pidSelectMap';
                 pidSelect.title = 'Select PID';
 
                 // container.appendChild(sessionSelect);
+                container.appendChild(sessionSelect);
+                container.appendChild(sessionName);
                 container.appendChild(pidSelect);
             
                 return container;
@@ -148,7 +156,7 @@ class Map {
                 .addTo(this.markerLayer);
         });  
         
-        // hotline color assignemnt crashes if only one pid value for every timestamp
+        // hotline color assignement fails if only one pid value for every timestamp so assign 0-100
         if(max === min) {
             min = 0;
             max = 100;
@@ -170,11 +178,6 @@ class Map {
             min: min,
             max: max
         }).addTo(this.pathLayer);
-
-        //get polyline distance
-        let distance = path.getDistance();
-        console.log('distance:',distance,'meters');
-
 
         // zoom the map to the polyline
         this.map.fitBounds(path.getBounds());
