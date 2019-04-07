@@ -53,15 +53,15 @@ app.use('/api/users', require('./routes/api/users.js'));
 
 // Connect to database and sync models
 sequelize.sync(
-    // {force:true}
+    {force:true}
     )
     .then(() => {
         console.log('Connection to database successfully established');  
         
-        // User.create({
-        //     email: 'test@contoso.com',
-        //     password : 'heslo'
-        // });
+        User.create({
+            email: 'test@contoso.com',
+            password : 'heslo'
+        });
 
         // Start server
         app.listen(config.port, () => console.log(`Listening on port ${config.port}`));
