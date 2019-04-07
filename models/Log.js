@@ -4,21 +4,17 @@ module.exports = (sequelize, DataTypes) => {
     // define Log
     const Log = sequelize.define('Log', {
         timestamp: {
-            type: DataTypes.STRING
+            type: 'TIMESTAMP'
         },
-        engineRPM: {
+        lon : {
             type: DataTypes.FLOAT
         },
-        speed: {
+        lat: {
             type: DataTypes.FLOAT
         },
-        gpsLongitude: {
-            type: DataTypes.FLOAT
-        },
-        gpsLatitude: {
-            type: DataTypes.FLOAT
+        values: {
+            type: DataTypes.JSONB
         }
-
     }, {});
 
     // Instance method for reverse geocode - get address from coordinates

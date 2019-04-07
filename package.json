@@ -26,6 +26,7 @@
     "express-handlebars": "^3.0.2",
     "express-session": "^1.15.6",
     "joi": "^14.3.1",
+    "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",

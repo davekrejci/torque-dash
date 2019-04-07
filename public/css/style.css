@@ -347,6 +347,12 @@ a.dropdown-item.active {
     background-clip: padding-box;
     border-radius: 5px;
 }
+.custom-map-control-group {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 5px;
+
+}
+
 .map-card {
     background-color: rgba(255,255,255,255,0.2);
 }

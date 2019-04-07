@@ -56,22 +56,23 @@ class Map {
               position: 'topleft'
             },
             onAdd: function (map) {
-                let container = L.DomUtil.create('div', 'w-75');
+                let container = L.DomUtil.create('div', 'custom-map-control-group p-1 w-75');
 
                 // <div id="sessionName" class="badge badge-light p-2 w-100 mb-2">No session selected</div>
 
-                let sessionName = L.DomUtil.create('div', 'badge badge-light p-2 custom-map-control my-1 w-75 font-weight-bold text-uppercase');
+                let sessionName = L.DomUtil.create('div', 'badge badge-light p-2 custom-map-control my-1 w-100 font-weight-bold text-uppercase');
                 sessionName.innerText = 'No session selected';
                 sessionName.id = 'sessionName';
 
-                let sessionSelect = L.DomUtil.create('button', 'btn btn-light custom-map-control my-1 w-75 ');
+                let sessionSelect = L.DomUtil.create('button', 'btn btn-light custom-map-control my-1 w-100 ');
                 sessionSelect.id = 'sessionSelectButton';
                 sessionSelect.dataset.toggle = 'modal';   
                 sessionSelect.dataset.target = '#selectSessionModal';
                 sessionSelect.innerText = 'Select Session';
 
-                let pidSelect = L.DomUtil.create('select', 'form-input selectpicker custom-map-control my-1 w-75');
+                let pidSelect = L.DomUtil.create('select', 'form-input selectpicker custom-map-control my-1 w-100');
                 pidSelect.id = 'pidSelectMap';
+                pidSelect['data-live-search'] = 'true';   
                 pidSelect.title = 'Select PID';
 
                 // container.appendChild(sessionSelect);
@@ -134,37 +135,38 @@ class Map {
 
         // The value to be color graded on path
         let mappedValue = $('#pidSelectMap').val();
-        let min = session.Logs[0][mappedValue];
-        let max = session.Logs[0][mappedValue];
+        let min = session.Logs[0].values[mappedValue];
+        let max = session.Logs[0].values[mappedValue];
         
 
         // Loop through all logs in session
         let coordinates = new Array;
         session.Logs.forEach(log => {
 
-            if(log[mappedValue] > max) max = log[mappedValue];
-            if(log[mappedValue] < min) min = log[mappedValue];
+            if(log.values[mappedValue] > max) max = log.values[mappedValue];
+            if(log.values[mappedValue] < min) min = log.values[mappedValue];
 
             // Create array of coordinates + value for creating color graded path
-            coordinates.push([log.gpsLatitude, log.gpsLongitude, log[mappedValue]]);
+            coordinates.push([log.lat, log.lon, log.values[mappedValue]]);
 
             // Add markers at each log position
-            L.marker([log.gpsLatitude, log.gpsLongitude], {icon: L.divIcon({ className: 'map-marker' })})
-                .bindPopup(`<p>${mappedValue}: ${log[mappedValue]}</p>`)
+            L.marker([log.lat, log.lon], {icon: L.divIcon({ className: 'map-marker' })})
+                .bindPopup(`<p>${mappedValue}: ${log.values[mappedValue]}</p>`)
                 .on('mouseover', function (e) { this.openPopup(); })
                 .on('mouseout', function (e) { this.closePopup(); })
                 .addTo(this.markerLayer);
         });  
         
+        // Update min/max description
+        $('#minValue').text(min);
+        $('#maxValue').text(max);
+
         // hotline color assignement fails if only one pid value for every timestamp so assign 0-100
         if(max === min) {
             min = 0;
             max = 100;
         }
         
-        // Update min/max description
-        $('#minValue').text(min);
-        $('#maxValue').text(max);
         
         // Create polyline over session path
         let path = L.hotline(coordinates, {

@@ -38,7 +38,10 @@ $(document).ready(async function () {
         map.drawSession(currentSession)
     });
     $('#pidSelectChart').on('change', function (e) {
-        /* redraw chart with current selected values */ });
+        /* redraw chart with current selected values */
+        console.log($('#pidSelectChart').val());
+        
+    });
 
 
 });
@@ -49,6 +52,11 @@ function selectSession(id) {
     $('#sessionName').text(currentSession.name);
     updatePidSelect(currentSession);
     map.drawSession(currentSession);
+
+    let timestamps = currentSession.Logs.map(log => moment(log.timestamp).format("hh:mm:ss"));
+    console.log('timestamps', timestamps);
+    if(chart) chart.destroy();
+    chart = new MyChart(timestamps); 
 }
 
 function updatePidSelect(session) {
@@ -56,14 +64,10 @@ function updatePidSelect(session) {
     $('#pidSelectMap').empty();
     $('#pidSelectChart').empty();
     //get list of available PIDs from first log
-    session.Logs[0]
-    for (const pid in session.Logs[0]) {
-        // Skip location, time and identification values
-        if (!(['gpsLongitude', 'gpsLatitude', 'id', 'timestamp', 'sessionId', 'createdAt', 'updatedAt'].includes(pid))) {
-            // Add option
-            $('#pidSelectMap').append(`<option >${pid}</option>`)
-            $('#pidSelectChart').append(`<option data-content="<span class='badge badge-pill badge-primary p-2'>${pid}</span>">${pid}</option>`)
-        }
+    for (const pid in session.Logs[0].values) {
+        // Add option
+        $('#pidSelectMap').append(`<option >${pid}</option>`)
+        $('#pidSelectChart').append(`<option data-content="<span class='badge badge-pill badge-light p-2'>${pid}</span>">${pid}</option>`)
     }
     // refresh selectpicker
     $('.selectpicker').selectpicker('refresh');
@@ -81,7 +85,12 @@ function plotChart() {
     console.log(selectedPids);
     // Create dataset for each pid
     selectedPids.forEach(pid => {
-        
+        let data = currentSession.Logs.map(log => log[pid]);
+        let dataset = {
+            label: pid,
+            data: data
+        }
+        console.log(dataset);
     });
 
 
@@ -97,19 +106,11 @@ function plotChart() {
 // TODO: move to separate js file
 
 class MyChart {
-    constructor() {
+    constructor(timestamps) {
         // initial data
         var data = {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-            datasets: [{
-                label: "Dataset #1",
-                backgroundColor: "rgba(255,99,132,0.2)",
-                borderColor: "rgba(255,99,132,1)",
-                borderWidth: 2,
-                hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                hoverBorderColor: "rgba(255,99,132,1)",
-                data: [65, 59, 20, 81, 56, 55, 40],
-            }]
+            labels: timestamps,
+            datasets: []
         };
         // Chart options
         var options = {
@@ -130,9 +131,10 @@ class MyChart {
             }
         };
 
-        Chart.Line('chart', {
+        let chart = Chart.Line('chart', {
             options: options,
             data: data
         });
+        return chart;
     }
 }

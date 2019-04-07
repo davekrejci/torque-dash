@@ -20,6 +20,8 @@ router.get('/', authenticate, async (req, res) => {
         include: [ {all: true} ]
     });
 
+    console.log(sessions);
+
     res.send(sessions);
 });
 

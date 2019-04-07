@@ -10,7 +10,7 @@ const exphbs = require('express-handlebars');
 const flash = require('connect-flash');
 const session = require('cookie-session');
 const passport = require('passport');
-// const User = require('./models').User;
+const User = require('./models').User;
 require('./config/passport')(passport); 
 
 // Configure middleware
@@ -68,6 +68,6 @@ sequelize.sync(
 
     }).catch((err) => {
         console.log('Error connecting to the database:', err.message);
-    });
+});
 
 
