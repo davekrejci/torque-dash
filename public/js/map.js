@@ -70,7 +70,7 @@ class Map {
                 sessionSelect.dataset.target = '#selectSessionModal';
                 sessionSelect.innerText = 'Select Session';
 
-                let pidSelect = L.DomUtil.create('select', 'form-input selectpicker custom-map-control my-1 w-100');
+                let pidSelect = L.DomUtil.create('select', 'form-input btn btn-light custom-map-control my-1 w-100');
                 pidSelect.id = 'pidSelectMap';
                 pidSelect['data-live-search'] = 'true';   
                 pidSelect.title = 'Select PID';
@@ -130,33 +130,61 @@ class Map {
         // Remove current session layer
         this.markerLayer.clearLayers();
         this.pathLayer.clearLayers();
-        console.log(session);
-
 
         // The value to be color graded on path
-        let mappedValue = $('#pidSelectMap').val();
-        let min = session.Logs[0].values[mappedValue];
-        let max = session.Logs[0].values[mappedValue];
-        
+        let mappedValueName = $('#pidSelectMap').val();
+        let mappedValue = session.Logs[0].values[mappedValueName];
+        if(!mappedValue) mappedValue = 0;
+        else mappedValue = parseFloat(mappedValue);
+        let min = mappedValue;
+        let max = mappedValue;
 
         // Loop through all logs in session
         let coordinates = new Array;
         session.Logs.forEach(log => {
 
-            if(log.values[mappedValue] > max) max = log.values[mappedValue];
-            if(log.values[mappedValue] < min) min = log.values[mappedValue];
+            let mappedValue = log.values[mappedValueName];
+            let timestamp = moment(log.timestamp).format("hh:mm:ss");
+            // If no value for log, create point from previous value
+            if(!mappedValue){
+                let previousValue = 0.0;
+                if(coordinates.length > 1) previousValue = coordinates.slice(-1)[0][2];
+                coordinates.push([log.lat, log.lon, previousValue]);
+                // Add markers at each log position
+                let marker = L.marker([log.lat, log.lon], {icon: L.divIcon({ className: 'map-marker' })})
+                    .bindPopup(`
+                    <div><b>${timestamp}</b></div>
+                    <div>${mappedValueName}: No value</div>
+                    `, { closeButton: false })
+                    .on('mouseover', function (e) { this.openPopup(); })
+                    .on('mouseout', function (e) { this.closePopup(); })
+                    .addTo(this.markerLayer);
+                marker.timestamp = timestamp;
+                }
+            else{
+                mappedValue = parseFloat(mappedValue);
+                // compare against min/max
+                if(mappedValue > max) max = mappedValue;
+                if(mappedValue < min) min = mappedValue;
+    
+                // Create array of coordinates + value for creating color graded path
+                coordinates.push([log.lat, log.lon, mappedValue]);
+    
+                // Add markers at each log position
+                let marker = L.marker([log.lat, log.lon], {icon: L.divIcon({ className: 'map-marker' })})
+                    .bindPopup(`
+                    <div><b>${timestamp}</b></div>
+                    <div>${mappedValueName}: ${mappedValue}</div>
+                    `, { closeButton: false })
+                    .on('mouseover', function (e) { this.openPopup(); })
+                    .on('mouseout', function (e) { this.closePopup(); })
+                    .addTo(this.markerLayer);
+                marker.timestamp = timestamp;
+                
+            }
 
-            // Create array of coordinates + value for creating color graded path
-            coordinates.push([log.lat, log.lon, log.values[mappedValue]]);
-
-            // Add markers at each log position
-            L.marker([log.lat, log.lon], {icon: L.divIcon({ className: 'map-marker' })})
-                .bindPopup(`<p>${mappedValue}: ${log.values[mappedValue]}</p>`)
-                .on('mouseover', function (e) { this.openPopup(); })
-                .on('mouseout', function (e) { this.closePopup(); })
-                .addTo(this.markerLayer);
         });  
-        
+
         // Update min/max description
         $('#minValue').text(min);
         $('#maxValue').text(max);
@@ -166,8 +194,7 @@ class Map {
             min = 0;
             max = 100;
         }
-        
-        
+
         // Create polyline over session path
         let path = L.hotline(coordinates, {
             weight: 5,

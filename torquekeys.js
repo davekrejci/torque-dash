@@ -1,3 +1,5 @@
+// List of key: name pairs for the pids torque uses
+
 module.exports = keysMap = {
     k10: 'Mass Air Flow Rate',
     k11: 'Throttle Position(Manifold)',

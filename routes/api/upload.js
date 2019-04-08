@@ -10,16 +10,12 @@ const moment = require('moment');
 
 // Torque sends data through GET request rather than post
 router.get('/', async (req, res) => {
-    console.log('---------------------');
-    console.log(req.query.kff1005);
-    console.log(req.query.kff1006);
-    console.log('---------------------');
 
     let { eml, session, time } = req.query;
     let lon = req.query.kff1005;
     let lat = req.query.kff1006;
 
-    // check for duplicate gps values (when selected always send in settings + choosing pid in pid list)
+    // check for duplicate gps values (when selecting always send in settings + choosing pid in pid list)
     if (Array.isArray(lon)) lon = lon[0];
     if (Array.isArray(lat)) lat = lat[0];
 
@@ -58,7 +54,7 @@ router.get('/', async (req, res) => {
             lon: lon,
             lat: lat,
             values: values
-        });
+      });
         if (log) res.status(200).send('OK!');
     } catch (err) {
         console.log(err.message);

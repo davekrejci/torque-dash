@@ -217,6 +217,10 @@ a.dropdown-item.active {
     background-color: #eee;
     color: var(--accent-color);
 }
+.badge-accent {
+    background-color: var(--accent-color);
+    color: white;
+}
 
 /*******************************
         Modal Confirm
@@ -343,14 +347,14 @@ a.dropdown-item.active {
 }
 
 .custom-map-control {
-    border: 2px solid rgba(0,0,0,0.2);
+    border: 1px solid rgba(0,0,0,0.2);
     background-clip: padding-box;
     border-radius: 5px;
 }
 .custom-map-control-group {
     background-color: rgba(0,0,0,0.2);
     border-radius: 5px;
-
+    max-width: 400px;
 }
 
 .map-card {
@@ -401,6 +405,9 @@ a.dropdown-item.active {
     cursor: row-resize;
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
 }
+.gutter.gutter-vertical:hover {
+    border: 2px dotted rgba(0,0,0,0.2);
+}
 .split.split-horizontal,
 .gutter.gutter-horizontal {
     height: 100%;
@@ -417,3 +424,42 @@ a.dropdown-item.active {
 body > nav > div:nth-child(3) > div > div {
     z-index: 9999;
 }
+
+#pidSelectChart {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+div.dropdown-menu.open{
+    max-height: 200px !important;
+    overflow: hidden;
+  }
+ul.dropdown-menu.inner{
+    max-height: 200px !important;
+    max-width: 80% !important;
+    overflow-y: auto;
+}
+
+/*
+ * These CSS rules affect the tooltips within maps
+*/
+.leaflet-popup-content-wrapper {
+    background: var(--primary-color);
+    color:#fff;
+    border-radius: 5px;
+    /* font-size:16px; */
+    /* line-height:24px; */
+    }
+.leaflet-popup-content-wrapper a {
+    /* color:rgba(255,255,255,0.5); */
+    }
+.leaflet-popup-tip-container {
+    /* width:30px; */
+    /* height:15px; */
+    }
+.leaflet-popup-tip {
+    /* border-left:15px solid transparent;
+    border-right:15px solid transparent;
+    */
+    background-color: var(--primary-color); 
+    }
