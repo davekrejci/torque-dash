@@ -1,4 +1,6 @@
 const axios = require('axios');
+const keysMap = require('../torquekeys');
+const util = require('../util/util');
 
 module.exports = (sequelize, DataTypes) => {
     // define Log
@@ -13,7 +15,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.FLOAT
         },
         values: {
-            type: DataTypes.JSONB
+            type: DataTypes.JSONB,
+            // convert keys to names when pulling out of db
+            get: function()  {
+                var values = this.getDataValue('values'); 
+                values = util.renameKeys(keysMap, values);
+                return values;
+              },
         }
     }, {});
 
