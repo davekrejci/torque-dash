@@ -19,12 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(logger('combined'));
 app.use(session({
-    secret: 'supersecretkey123',
-    cookie: {
-        secure: true,
-        httpOnly: true,
-        expires: new Date(Date.now() + 60 * 60 * 1000) // 1 hour
-      }
+    keys: config.session.keys,
+    maxAge: 24 * 60 * 60 * 1000
 }));
 app.use(flash());
 app.use(passport.initialize());
@@ -50,6 +46,7 @@ app.use('/register', require('./routes/web/register.js'));
 app.use('/api/upload', require('./routes/api/upload.js'));
 app.use('/api/sessions', require('./routes/api/sessions.js'));
 app.use('/api/users', require('./routes/api/users.js'));
+app.use('/api/edit', require('./routes/api/edit.js'));
 
 // Connect to database and sync models
 sequelize.sync(

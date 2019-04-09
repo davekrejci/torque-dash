@@ -11,24 +11,29 @@ module.exports = function(passport){
                 if(!user){
                     return done(null, false, { message: 'Incorrect username or password.' });
                 }
+                
+                // Compare password
+                let isMatch = await user.comparePassword(password);
+                if(isMatch){
+                    return done(null, user);
+                }
+                else{
+                    return done(null, false, { message: 'Incorrect username or password.' });
+                }
             }
-            catch(err){ console.log(err); }
-
-            // Compare password
-            let isMatch = await user.comparePassword(password);
-            if(isMatch){
-                return done(null, user);
-            }
-            else{
-                return done(null, false, { message: 'Incorrect username or password.' });
+            catch(err){ 
+                console.log(err);
+                return done(err, false);
             }
         })
     );
 
+    // called when user logs in, stores user id in cookie
     passport.serializeUser((user, done) => {
         done(null, user.id);
       });
       
+    // called when request from client is made, loads user data into req.user based on cookie's user id
     passport.deserializeUser(async (id, done) => {
         try{
             let user = await User.findByPk(id);
@@ -40,6 +45,7 @@ module.exports = function(passport){
             }
         }catch(err) {
             console.log(err);
+            done(err, false);
         }
     });
 }
