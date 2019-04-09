@@ -70,7 +70,7 @@ class Map {
                 sessionSelect.dataset.target = '#selectSessionModal';
                 sessionSelect.innerText = 'Select Session';
 
-                let pidSelect = L.DomUtil.create('select', 'form-input btn btn-light custom-map-control my-1 w-100');
+                let pidSelect = L.DomUtil.create('select', 'form-input btn btn-light chosen-select custom-map-control my-1 w-100');
                 pidSelect.id = 'pidSelectMap';
                 pidSelect['data-live-search'] = 'true';   
                 pidSelect.title = 'Select PID';

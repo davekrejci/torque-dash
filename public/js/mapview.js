@@ -27,13 +27,17 @@ $(document).ready(async function () {
 
     });
 
+    
     //get list of user sessions from api
     sessions = await Session.getSessions();
-
+    
     // Create new Map object in div with id #map
     map = new Map('map');
     chart = new MyChart();
-
+    
+    //activate chosen selects
+    $(".chosen-select").chosen();
+    
     $('#pidSelectMap').on('change', function (e) {
         map.drawSession(currentSession)
     });
@@ -90,15 +94,13 @@ function updatePidSelect(session) {
     valueSet.forEach(pid => {
         // Add option
         $('#pidSelectMap').append(`<option >${pid}</option>`)
-        $('#pidSelectChart').append(`<option data-content="<span class='badge badge-pill badge-accent p-2'>${pid}</span>">${pid}</option>`)
+        $('#pidSelectChart').append(`<option>${pid}</option>`)
         
     });
-    // refresh selectpicker
-    $('.selectpicker').selectpicker('refresh');
     // select first value for map
-    $("#pidSelectMap")[0].selectedIndex = 1;
-    // refresh again to show selected value
-    $('.selectpicker').selectpicker('refresh');
+    $("#pidSelectMap")[0].selectedIndex = 0;
+    // refresh select
+    $('.chosen-select').trigger("chosen:updated");
 }
 
 

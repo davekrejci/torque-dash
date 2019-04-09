@@ -14,34 +14,15 @@ html, body{
     height:100%;
     font-family: 'Roboto', sans-serif;
 }
-#map{
-    
-    background-color: #EFE9E1;
-}
-#controls{
-    /* background-color: var(--light-color); */
-    
-    padding: 10px;
-}
+
+
+
 .dashcontainer{
     padding: 0;
     height: calc(100vh - var(--header-height));
     max-height: calc(100vh - var(--header-height));
 }
 
-/************
-    TABLE
-************/
-tbody {
-    color: #666;
-}
-tr:hover{
-    color: var(--accent-color);
-    font-weight: bold;
-}
-th {
-  cursor: pointer;  
-}
 
 .container-fluid{
     padding: 0;
@@ -71,6 +52,26 @@ th {
     text-align: center;
 }
 
+/* Make user dropdown menu always on top */
+body > nav > div:nth-child(3) > div > div {
+    z-index: 9999;
+}
+
+
+/********************************
+    Table style
+********************************/
+tbody {
+    color: #666;
+}
+tr:hover{
+    color: var(--accent-color);
+    font-weight: bold;
+}
+th {
+  cursor: pointer;  
+}
+
 /********************************
     Mobile styles
 ********************************/
@@ -90,7 +91,6 @@ th {
     
 }
 .nav-link{
-    /* background-color: var(--secondary-color); */
     margin-bottom: 5px;
     color: var(--light-color);
     text-align: left !important;
@@ -305,20 +305,15 @@ a.dropdown-item.active {
 .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
     background: #ee3535;
 }
-.map-marker {
-    background-color: #eee;
-    border: 4px solid var(--accent-color);
-    border-radius: 50%;
-}
 
+
+/*******************************
+        Curved table
+*******************************/
 .table-curved {
     color: #333;
-}
-.table-curved {
     border-collapse: separate;
     border-spacing: 0;
-}
-.table-curved {
     border: solid transparent 1px;
     border-radius: 6px;
     border-left:0px;
@@ -346,6 +341,10 @@ a.dropdown-item.active {
     border-bottom: 1px solid rgb(235, 235, 235);;
 }
 
+
+/*******************************
+        Custom map styles
+*******************************/
 .custom-map-control {
     border: 1px solid rgba(0,0,0,0.2);
     background-clip: padding-box;
@@ -356,19 +355,15 @@ a.dropdown-item.active {
     border-radius: 5px;
     max-width: 400px;
 }
-
 .map-card {
     background-color: rgba(255,255,255,255,0.2);
 }
-
 #map > .card {
     background-color: red;
 }
-
 #sessionName {
     font-size: 1em;
 }
-
 .gradient {
     width: 20px;
     height: 100px;
@@ -381,9 +376,71 @@ a.dropdown-item.active {
     padding: 5px;
     font-weight: bold;
 }
+.map-marker {
+    background-color: #eee;
+    border: 4px solid var(--accent-color);
+    border-radius: 50%;
+}
+/* Make map pid select on top over other controls */
+.leaflet-top.leaflet-left {
+    z-index: 1001;
+}
+/* tooltips */
+.leaflet-popup-content-wrapper {
+    background: var(--primary-color);
+    color:#fff;
+    border-radius: 5px;
+}
+.leaflet-popup-tip {
+    background-color: var(--primary-color); 
+}
 
 
-/* Window Split */
+/*******************************
+        Chosen select pickers
+*******************************/
+#pidSelectMap_chosen {
+    border: 1px solid rgba(0,0,0,0.2);
+    background-clip: padding-box;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0.2);
+    width: 100% !important; 
+}
+#pidSelectMap_chosen > a {
+    background: #eee;
+    border: none;
+}
+#pidSelectChart_chosen {
+    background-color: rgba(0,0,0,0.2);
+    width: 100% !important; 
+    border: none;
+    border-radius: 5px;
+}
+#pidSelectChart_chosen > ul {
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background: #eee;
+}
+.chosen-container-multi .chosen-choices li.search-choice {
+    background: none;
+    background-color: #fff;
+    border: none;
+}
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+    color: #fff;
+}
+.chosen-container .chosen-drop {
+    z-index: 99999;
+}
+.chosen-container .chosen-results li.highlighted {
+    background: none;
+    background-color: var(--accent-color);
+}
+
+
+/*******************************
+        Window splitting
+*******************************/
 .split {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -413,53 +470,13 @@ a.dropdown-item.active {
     height: 100%;
     float: left;
 }
-
 .chart-container {
     position: relative;
     height: 90%;
     width: 100%;
 }
 
-/* Make user dropdown menu always on top */
-body > nav > div:nth-child(3) > div > div {
-    z-index: 9999;
-}
 
-#pidSelectChart {
-    max-width: 200px;
-    max-height: 200px;
-}
 
-div.dropdown-menu.open{
-    max-height: 200px !important;
-    overflow: hidden;
-  }
-ul.dropdown-menu.inner{
-    max-height: 200px !important;
-    max-width: 80% !important;
-    overflow-y: auto;
-}
 
-/*
- * These CSS rules affect the tooltips within maps
-*/
-.leaflet-popup-content-wrapper {
-    background: var(--primary-color);
-    color:#fff;
-    border-radius: 5px;
-    /* font-size:16px; */
-    /* line-height:24px; */
-    }
-.leaflet-popup-content-wrapper a {
-    /* color:rgba(255,255,255,0.5); */
-    }
-.leaflet-popup-tip-container {
-    /* width:30px; */
-    /* height:15px; */
-    }
-.leaflet-popup-tip {
-    /* border-left:15px solid transparent;
-    border-right:15px solid transparent;
-    */
-    background-color: var(--primary-color); 
-    }
+

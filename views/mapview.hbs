@@ -3,12 +3,9 @@
   <!-- Content -->
   <div class="dashcontainer container-fluid">
         <div id='map' class="split content"></div>
-        <div id="graph" class="split content p-3">
-            <select id='pidSelectChart' class="form-control selectpicker mb-2" data-live-search="true" multiple>
-                {{!-- <option data-content="<span class='badge badge-pill p-2 badge-primary'>OBD Speed</span>">OBD Speed</option>
-                <option data-content="<span class='badge badge-success'>Engine RPM</span>">Engine RPM</option> --}}
-            </select>
-            <div class="chart-container row">
+        <div id="graph" class="split content px-3 py-1">
+            <select id='pidSelectChart' class="chosen-select w-100" data-placeholder="Choose from PIDs..." multiple></select>
+            <div class="chart-container row mt-2">
                 <canvas id="chart"></canvas>
             </div>
         </div>
