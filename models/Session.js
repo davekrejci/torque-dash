@@ -20,7 +20,11 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
 
     Session.associate = function (models) {
-        Session.hasMany(models.Log, { as: 'Logs', foreignKey: { name: 'sessionId'} });
+        Session.hasMany(models.Log, {
+            as: 'Logs',
+            foreignKey: { name: 'sessionId'},
+            onDelete: 'cascade'
+        });
     };
 
     return Session;

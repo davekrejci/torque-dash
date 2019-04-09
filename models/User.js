@@ -21,7 +21,11 @@ module.exports = (sequelize, DataTypes) => {
     );
     // create association
     User.associate = function (models) {
-        User.hasMany(models.Session, { as: 'Sessions', foreignKey: 'userId' });
+        User.hasMany(models.Session, {
+            as: 'Sessions',
+            foreignKey: 'userId',
+            onDelete: 'cascade'
+        });
     };
 
     // Static method for user data validation

@@ -45,4 +45,20 @@ router.get('/:sessionId', authenticate, async (req, res) => {
     res.send(session);
 });
 
+// Delete a session
+router.delete('/:sessionId', authenticate, async (req, res) => {
+    console.log(req.user);
+    try{
+        let userId = req.user.id;
+        let sessionId = req.params.sessionId
+        let session = await Session.destroy({ where: {id: sessionId, userId: userId } });
+        if(!session) return res.status(401).send('Session not found');
+        res.sendStatus(200);
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+});
+
 module.exports = router;
