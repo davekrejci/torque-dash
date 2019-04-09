@@ -38,15 +38,8 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '/views'));
 
 // Define routes
-// Serve web pages
-app.use('/', require('./routes/web/dashboard.js'));
-app.use('/login', require('./routes/web/login.js'));
-app.use('/register', require('./routes/web/register.js'));
-// Api routes
-app.use('/api/upload', require('./routes/api/upload.js'));
-app.use('/api/sessions', require('./routes/api/sessions.js'));
-app.use('/api/users', require('./routes/api/users.js'));
-app.use('/api/edit', require('./routes/api/edit.js'));
+app.use('/', require('./routes/web.js'));
+app.use('/api', require('./routes/api.js'));
 
 // Connect to database and sync models
 sequelize.sync(
