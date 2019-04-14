@@ -30,7 +30,7 @@ class Map {
         // initialize the map in the container
         this.map = L.map(container, mapOptions);
         // Create a layer for markers
-        this.markerLayer = L.layerGroup().addTo(this.map);
+        this.markerLayer = L.featureGroup().addTo(this.map);
         // Create a layer for the session path
         this.pathLayer = L.layerGroup().addTo(this.map);
         
@@ -50,6 +50,17 @@ class Map {
         // Add zoom control
         new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
+        // Resize map on width change (resizeobserver only works in chromium atm)
+        new ResizeObserver(() => {
+            this.map.invalidateSize();
+        }).observe(document.getElementById(container));
+
+    }
+}
+
+class ViewMap extends Map {
+    constructor(container) {
+        super(container);
         // Add Session Control
         var sessionControl =  L.Control.extend({        
             options: {
@@ -118,14 +129,7 @@ class Map {
                 return Math.floor(distance);
             }
         }); 
-
-        // Resize map on width change (resizeobserver only works in chromium atm)
-        new ResizeObserver(() => {
-            this.map.invalidateSize();
-        }).observe(document.getElementById(container));
-
     }
-
     drawSession(session) {
         // Remove current session layer
         this.markerLayer.clearLayers();
@@ -144,7 +148,7 @@ class Map {
         session.Logs.forEach(log => {
 
             let mappedValue = log.values[mappedValueName];
-            let timestamp = moment(log.timestamp).format("hh:mm:ss");
+            let timestamp = moment(log.timestamp).format("HH:mm:ss");
             // If no value for log, create point from previous value
             if(!mappedValue){
                 let previousValue = 0.0;
@@ -207,6 +211,44 @@ class Map {
             min: min,
             max: max
         }).addTo(this.pathLayer);
+
+        // zoom the map to the polyline
+        this.map.fitBounds(path.getBounds());
+    }
+}
+
+class EditMap extends Map {
+    constructor(container) {
+        super(container);
+        this.unselectedIcon = L.divIcon({className: 'map-marker'});
+        this.selectedIcon = L.divIcon({className: 'map-marker-active'});
+    }
+    drawSession(session) {
+        // Remove current session layer
+        this.markerLayer.clearLayers();
+        this.pathLayer.clearLayers();
+
+        // Loop through all logs in session
+        let coordinates = new Array;
+        session.Logs.forEach(log => {
+
+            let timestamp = moment(log.timestamp).format("HH:mm:ss");
+            // Create array of coordinates + value for creating color graded path
+            coordinates.push([log.lat, log.lon]);
+    
+            // Add markers at each log position
+            let marker = L.marker([log.lat, log.lon], {icon: this.unselectedIcon })
+                .bindPopup(`
+                <div><b>${timestamp}</b></div>
+                `, { closeButton: false })
+                .on('mouseover', function (e) { this.openPopup(); })
+                .on('mouseout', function (e) { this.closePopup(); })
+                .addTo(this.markerLayer);
+            marker.timestamp = timestamp;
+        });  
+
+        // Create polyline over session path
+        let path = L.polyline(coordinates, {color: 'green'}).addTo(this.pathLayer);
 
         // zoom the map to the polyline
         this.map.fitBounds(path.getBounds());

@@ -29,4 +29,25 @@ class Session {
                 url: `/api/sessions/${id}`,
             });
     }
+    static renameSession(id, name) {
+        return $.ajax({
+                type: 'PATCH',
+                url: `/api/sessions/rename/${id}`,
+                data : {name: name}
+            });
+    }
+    static copySession(id, name) {
+        return $.ajax({
+                type: 'POST',
+                url: `/api/sessions/copy/${id}`,
+                data : {name: name}
+            });
+    }
+    static addLocations(id, locations) {
+        return $.ajax({
+                type: 'PATCH',
+                url: `/api/sessions/addlocation/${id}`,
+                data : {locations: locations}
+            });
+    }
 }

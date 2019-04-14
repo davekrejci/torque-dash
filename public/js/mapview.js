@@ -6,9 +6,7 @@ let chart = {};
 
 
 $(document).ready(async function () {
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-    });
+
 
     // Initialize datatable
     $('#logTable').DataTable({
@@ -32,7 +30,7 @@ $(document).ready(async function () {
     sessions = await Session.getSessions();
     
     // Create new Map object in div with id #map
-    map = new Map('map');
+    map = new ViewMap('map');
     chart = new MyChart();
     
     //activate chosen selects
@@ -47,23 +45,6 @@ $(document).ready(async function () {
         
     });
 
-    let canvas = document.querySelector('canvas');
-    canvas.onhover = function(evt) {
-        var activePoints = chart.getElementsAtEvent(evt);
-        console.log(activePoints);
-        if (activePoints[0]) {
-          var chartData = activePoints[0]['_chart'].config.data;
-          var idx = activePoints[0]['_index'];
-  
-          var label = chartData.labels[idx];
-          var value = chartData.datasets[0].data[idx];
-          console.log(label);
-          console.log(value);
-  
-        }
-      };
-    
-
 
 });
 
@@ -74,7 +55,7 @@ function selectSession(id) {
     updatePidSelect(currentSession);
     map.drawSession(currentSession);
 
-    let timestamps = currentSession.Logs.map(log => moment(log.timestamp).format("hh:mm:ss"));
+    let timestamps = currentSession.Logs.map(log => moment(log.timestamp).format("HH:mm:ss"));
     console.log('timestamps', timestamps);
     if(chart) chart.destroy();
     chart = new MyChart(timestamps); 

@@ -1,0 +1,112 @@
+<div class="container-fluid wrapper">
+    {{> sidebar }}
+    <!-- Content -->
+    <div class="container-fluid" id="content">
+        <div class="row h-100 no-gutters">
+            <div class="col-md-4 p-3">
+                <div class="card border-secondary mb-3 session-info-card">
+                    <div class="card-header"><strong>Session</strong>: <span id="sessionInfoName"></span></div>
+                    <div class="card-body">
+                        <ul>
+                            <li><strong>Started</strong>: <span id="sessionInfoStartDate"></span></li>
+                            <li><strong>Ended</strong>: <span id="sessionInfoEndDate"></span></li>
+                            <li><strong>Duration</strong>: <span id="sessionInfoDuration"></span></li>
+                            <li><strong>Start Location</strong>: <span id="sessionInfoStartLocation"></span></li>
+                            <li><strong>End Location</strong>: <span id="sessionInfoEndLocation"></span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="btn-group-vertical w-100">
+                    <button class="btn btn-light my-1" data-toggle="modal" data-target="#renameSessionModal">Rename session</button>
+                    <button class="btn btn-light my-1" data-toggle="modal" data-target="#locationModal">Add start/end location</button>
+                    <button class="btn btn-light my-1" data-toggle="modal" data-target="#copySessionModal">Copy session</button>
+                    <button class="btn btn-light my-1" data-toggle="modal" data-target="#deleteSessionModal">Delete session</button>
+                </div>
+            </div>
+            <div class="col-md-8 h-100">
+                <div class="mapContainer w-100 h-100">
+                    <div id="editMap" class="h-100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="renameSessionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                Rename Session
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" name="sessionName" id="renameInput">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" id="renameSessionModalButton" class="btn btn-primary" data-dismiss="modal">Rename</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="locationModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                Add locations
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="startLocation">Start Location:</label>
+                    <input type="text" class="form-control" name="startLocation" id="startLocationInput">
+                </div>
+                <div class="form-group">
+                    <label for="startLocation">End Location:</label>
+                    <input type="text" class="form-control" name="endLocation" id="endLocationInput">
+                </div>
+                <button id="getGeocodeLocationButton" class="btn btn-primary">Get geocoded locations</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" id="addLocationsButton" class="btn btn-primary" data-dismiss="modal">Add locations</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="copySessionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                Copy Session
+            </div>
+            <div class="modal-body">
+                <label for="copyName">Copy Name:</label>
+                <input type="text" class="form-control" name="copyName" id="copyNameInput">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" id="copySessionModalButton" class="btn btn-primary" data-dismiss="modal">Copy</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteSessionModal" tabindex="-1" role="dialog" aria-labelledby="deleteSessionModal" aria-hidden="true">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content p-3">
+                    <div class="modal-header d-flex flex-column">
+                        <div class="icon-box">
+                            <i class="fas fa-trash"></i>
+                        </div>
+                        <h4 class="modal-title mx-auto">Are you sure?</h4>	
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you really want to delete this session? This action cannot be undone.</p>
+                    </div>
+                    <div class="modal-footer mx-auto">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                        <button type="button" id="deleteSessionModalButton" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>

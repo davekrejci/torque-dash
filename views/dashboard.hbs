@@ -18,63 +18,29 @@
             <tbody id="data">
                 {{#each sessions}}
                 <tr>
-                    <td>{{this.name}}</td>
-                    <td>{{this.startDate}}</td>
-                    <td>{{this.endDate}}</td>
+                    <td>{{this.dataValues.name}}</td>
+                    <td>{{this.dataValues.startDate}}</td>
+                    <td>{{this.dataValues.endDate}}</td>
                     <td>
-                            {{#if this.duration.days}}
-                            {{this.duration.days}} days
+                            {{#if this.dataValues.duration.days}}
+                            {{this.dataValues.duration.days}} days
                             {{/if}}
-                            {{#if this.duration.hours}}
-                            {{this.duration.hours}}h
+                            {{#if this.dataValues.duration.hours}}
+                            {{this.dataValues.duration.hours}}h
                             {{/if}}
-                            {{#if this.duration.minutes}}
-                            {{this.duration.minutes}}min
+                            {{#if this.dataValues.duration.minutes}}
+                            {{this.dataValues.duration.minutes}}min
                             {{/if}}
-                            {{#if this.duration.seconds}}
-                            {{this.duration.seconds}}sec
+                            {{#if this.dataValues.duration.seconds}}
+                            {{this.dataValues.duration.seconds}}sec
                             {{/if}}
 
                     </td>
                     <td>
-                            {{#if this.startLocation.road}}
-                            {{this.startLocation.road}}
-                            {{/if}}
-                            {{#if this.startLocation.house_number}}
-                            {{this.startLocation.house_number}} <br>
-                            {{/if}}
-                            {{#if this.startLocation.town}}
-                            {{this.startLocation.town}}
-                            {{/if}}
-                            {{#if this.startLocation.state}}
-                            {{this.startLocation.state}} <br>
-                            {{/if}}
-                            {{#if this.startLocation.postcode}}
-                            {{this.startLocation.postcode}}
-                            {{/if}}
-                            {{#if this.startLocation.country}}
-                            {{this.startLocation.country}}
-                            {{/if}}
+                        {{this.dataValues.startLocation}}
                     </td>
                     <td>
-                            {{#if this.endLocation.road}}
-                            {{this.endLocation.road}}
-                            {{/if}}
-                            {{#if this.endLocation.house_number}}
-                            {{this.endLocation.house_number}} <br>
-                            {{/if}}
-                            {{#if this.endLocation.town}}
-                            {{this.endLocation.town}}
-                            {{/if}}
-                            {{#if this.endLocation.state}}
-                            {{this.endLocation.state}} <br>
-                            {{/if}}
-                            {{#if this.endLocation.postcode}}
-                            {{this.endLocation.postcode}}
-                            {{/if}}
-                            {{#if this.endLocation.country}}
-                            {{this.endLocation.country}}
-                            {{/if}}
+                        {{this.dataValues.endLocation}}
                     </td>
                     <td>
                         <div class="btn-group">

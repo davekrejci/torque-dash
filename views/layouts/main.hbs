@@ -43,14 +43,26 @@
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes@latest/dist/chartjs-plugin-colorschemes.min.js"></script>
         <script src="/js/lib/moment.min.js"></script>
         <script src="/js/util.js"></script>
+        <script src="/js/sidebar.js"></script>
         <script src="/js/map.js"></script>
         <script src="/js/mapview.js"></script>
+    {{/if}}
+
+    {{#if edit}}
+        <script src="/js/session.js"></script>
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+        <script src="/js/lib/leaflet.hotline.min.js"></script>
+        <script src="/js/lib/moment.min.js"></script>
+        <script src="/js/sidebar.js"></script>
+        <script src="/js/map.js"></script>
+        <script src="/js/edit.js"></script>
     {{/if}}
     
     {{#if overview}}
         <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
         <script src="/js/lib/dataTables.responsive.min.js"></script>
+        <script src="/js/sidebar.js"></script>
         <script src="/js/overview.js"></script>
     {{/if}}
 

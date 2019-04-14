@@ -33,7 +33,7 @@ class UploadController {
             });
 
             //Check if timestamp already exists as torque app is spamming multiple requests
-            let timestamp = moment(time, 'x').format('YYYY-MM-DD hh:mm:ss');
+            let timestamp = moment(time, 'x').format('YYYY-MM-DD HH:mm:ss');
             let log = await Log.findOne({
                 where: {
                     sessionId: currentSession[0].dataValues.id,

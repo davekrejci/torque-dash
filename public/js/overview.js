@@ -1,5 +1,25 @@
 /* eslint-disable */
 
+
+// let OverviewModule = {
+//     init: function() {
+//         this.cacheDOM();
+//         this.bindEvents();
+//         this.session = await Session.getSession(this.sessionId);
+//     },
+//     cacheDOM: function() {
+//         this.$logTable = $('#logTable');
+//         this.$renameButton = $('#renameButton');
+//     },
+//     bindEvents: function() {
+//         this.$renameButton.on("click", displayRenameModal )
+//     },
+//     displayRenameModal: function() {
+        
+//     }
+
+// }
+
 // On page load
 $(document).ready(function () {
     // Initialize datatable
@@ -10,10 +30,7 @@ $(document).ready(function () {
         responsive: true
     });
     
-    // Enable sidebar toggling
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-    });
+
     // Enable tooltips
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
@@ -40,11 +57,20 @@ function deleteProduct(id) {
             url: `/api/sessions/${id}`,
         })
         .done(function (response) {
-            swal()
+            Swal.fire({
+                type: 'success',
+                title: 'Success!',
+                text: 'Locations added!'
+            });
         })
         .fail(function (err) {
             // Show alert message
             console.log(err);
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong! Please try again.'
+            });
         });
 }
 

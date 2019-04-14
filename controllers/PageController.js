@@ -6,7 +6,7 @@ class PageController {
     static async renderOverview(req, res) {
         try{
             let user = await User.findOne({ where: { email: req.user.email }});
-            let sessions = await user.getSessions({ raw: true });
+            let sessions = await user.getSessions();
             await addStartEndData(sessions)
             
             res.render('dashboard', {
@@ -24,7 +24,7 @@ class PageController {
     static async renderMapview(req, res) {
         try{
             let user = await User.findOne({ where: { email: req.user.email }});
-            let sessions = await user.getSessions({ raw: true });
+            let sessions = await user.getSessions();
             await addStartEndData(sessions)        
             
             res.render('mapview', {
@@ -53,37 +53,76 @@ class PageController {
             register: true
         });
     }
+    static async renderEdit(req, res) {
+        try{
+            res.render('edit', {
+                dashboard: true,
+                edit: true,
+                userEmail: req.user.email,
+                loggedIn: true
+            });
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
 }
 
 async function addStartEndData(sessions) {
-    for (const session of sessions) {
+    if(Array.isArray(sessions)){
+        for (const session of sessions) {
+            const firstLog = await Log.findAll({
+                limit: 1,
+                where: {
+                    sessionId: session.id
+                },
+                order: [ [ 'timestamp', 'ASC' ]]
+                });
+            const lastLog = await Log.findAll({
+                limit: 1,
+                where: {
+                    sessionId: session.id
+                },
+                order: [ [ 'timestamp', 'DESC' ]],
+            });
+            let duration = moment.duration(lastLog[0].timestamp - firstLog[0].timestamp);
+    
+            session.dataValues.startDate = moment(firstLog[0].timestamp).format('DD.MM.YYYY HH:mm:ss');
+            session.dataValues.endDate = moment(lastLog[0].timestamp).format('DD.MM.YYYY HH:mm:ss');
+            session.dataValues.duration = {
+                days: duration.days(),
+                hours: duration.hours(),
+                minutes: duration.minutes(),
+                seconds: duration.seconds()
+            };
+        }
+    }
+    else {
         const firstLog = await Log.findAll({
             limit: 1,
             where: {
-                sessionId: session.id
+                sessionId: sessions.id
             },
             order: [ [ 'timestamp', 'ASC' ]]
             });
         const lastLog = await Log.findAll({
             limit: 1,
             where: {
-                sessionId: session.id
+                sessionId: sessions.id
             },
             order: [ [ 'timestamp', 'DESC' ]],
         });
         let duration = moment.duration(lastLog[0].timestamp - firstLog[0].timestamp);
 
-        session.startDate = moment(firstLog[0].timestamp).format('DD.MM.YYYY hh:mm:ss');
-        session.endDate = moment(lastLog[0].timestamp).format('DD.MM.YYYY hh:mm:ss');
-        session.duration = {
+        sessions.dataValues.startDate = moment(firstLog[0].timestamp).format('DD.MM.YYYY HH:mm:ss');
+        sessions.dataValues.endDate = moment(lastLog[0].timestamp).format('DD.MM.YYYY HH:mm:ss');
+        sessions.dataValues.duration = {
             days: duration.days(),
             hours: duration.hours(),
             minutes: duration.minutes(),
             seconds: duration.seconds()
         };
     }
-    console.log(sessions);
 }
-
 
 module.exports = PageController;

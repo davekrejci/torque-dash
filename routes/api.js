@@ -16,4 +16,9 @@ router.get('/sessions', authenticate, SessionController.getAll);
 router.get('/sessions/:sessionId', authenticate, SessionController.getOne);
 router.delete('/sessions/:sessionId', authenticate, SessionController.delete);
 
+router.patch('/sessions/rename/:sessionId', authenticate, SessionController.rename);
+router.patch('/sessions/addlocation/:sessionId', authenticate, SessionController.addLocation);
+router.post('/sessions/copy/:sessionId', authenticate, SessionController.copy);
+
+
 module.exports = router;

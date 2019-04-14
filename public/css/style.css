@@ -345,6 +345,11 @@ a.dropdown-item.active {
 /*******************************
         Custom map styles
 *******************************/
+
+#editMap {
+    height: 400px;
+}
+
 .custom-map-control {
     border: 1px solid rgba(0,0,0,0.2);
     background-clip: padding-box;
@@ -379,6 +384,10 @@ a.dropdown-item.active {
 .map-marker {
     background-color: #eee;
     border: 4px solid var(--accent-color);
+    border-radius: 50%;
+}
+.map-marker-active {
+    background-color: red;
     border-radius: 50%;
 }
 /* Make map pid select on top over other controls */
@@ -474,6 +483,13 @@ a.dropdown-item.active {
     position: relative;
     height: 90%;
     width: 100%;
+}
+
+ 
+.session-info-card ul {
+    list-style-type: none;
+    margin: auto;
+    padding-left: 0;
 }
 
 
