@@ -18,6 +18,8 @@ router.delete('/sessions/:sessionId', authenticate, SessionController.delete);
 
 router.patch('/sessions/rename/:sessionId', authenticate, SessionController.rename);
 router.patch('/sessions/addlocation/:sessionId', authenticate, SessionController.addLocation);
+router.patch('/sessions/filter/:sessionId', authenticate, SessionController.filter);
+router.patch('/sessions/cut/:sessionId', authenticate, SessionController.cut);
 router.post('/sessions/copy/:sessionId', authenticate, SessionController.copy);
 
 

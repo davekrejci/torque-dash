@@ -19,9 +19,15 @@
                 <div class="btn-group-vertical w-100">
                     <button class="btn btn-light my-1" data-toggle="modal" data-target="#renameSessionModal">Rename session</button>
                     <button class="btn btn-light my-1" data-toggle="modal" data-target="#locationModal">Add start/end location</button>
+                    <div class="my-1"></div>
                     <button class="btn btn-light my-1" data-toggle="modal" data-target="#copySessionModal">Copy session</button>
                     <button class="btn btn-light my-1" data-toggle="modal" data-target="#deleteSessionModal">Delete session</button>
+                    <div class="my-1"></div>
+                    <button class="btn btn-light my-1" data-toggle="modal" data-target="#filterSessionModal">Filter session</button>
+                    <button class="btn btn-light my-1" data-toggle="modal" data-target="#cutSessionModal">Cut selection</button>
+                    <button class="btn btn-light my-1" data-toggle="modal" data-target="#selectJoinSessionModal">Join with another session</button>
                 </div>
+            
             </div>
             <div class="col-md-8 h-100">
                 <div class="mapContainer w-100 h-100">
@@ -29,12 +35,17 @@
                 </div>
             </div>
         </div>
+        <div id="loadOverlay" class="loadOverlay">
+            <div class="overlayInner">
+                <div class="overlayContent"><span class="spinner"></span></div>
+            </div>
+        </div>
     </div>
 </div>
 </div>
 
 <div class="modal fade" id="renameSessionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 Rename Session
@@ -50,7 +61,7 @@
     </div>
 </div>
 <div class="modal fade" id="locationModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 Add locations
@@ -74,7 +85,7 @@
     </div>
 </div>
 <div class="modal fade" id="copySessionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 Copy Session
@@ -90,7 +101,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="deleteSessionModal" tabindex="-1" role="dialog" aria-labelledby="deleteSessionModal" aria-hidden="true">
+<div class="modal fade" id="deleteSessionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog modal-confirm">
                 <div class="modal-content p-3">
                     <div class="modal-header d-flex flex-column">
@@ -109,4 +120,71 @@
                     </div>
                 </div>
             </div>
+</div>
+<div class="modal fade" id="filterSessionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Filter every n-th log
+            </div>
+            <div class="modal-body">
+                <h3 for="filterNumber" class="text-center my-2"><span id="filterNumberLabel">2</span></h3>
+                <input type="range" class="custom-range" id="filterNumberSlider" min="2" max="10" value="2">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" id="filterSessionModalButton" class="btn btn-primary" data-dismiss="modal">Filter</button>
+            </div>
         </div>
+    </div>
+</div>
+<div class="modal fade" id="cutSessionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Cut selected logs from session
+            </div>
+            <div class="modal-body">
+                <p class="text-center" id="cutMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" id="cutSessionModalButton" class="btn btn-primary" data-dismiss="modal">Cut</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="selectJoinSessionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                Select a session
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+        <table class="table table-curved table-striped table-bordered dt-responsive display nowrap" id="logTable" style="width:100%">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>Name</th>
+                    <th>Started</th>
+                    <th>Ended</th>
+                    <th>Duration</th>
+                    <th>Starting Location</th>
+                    <th>End Location</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="data">
+                
+            </tbody>
+        </table>
+        </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+        

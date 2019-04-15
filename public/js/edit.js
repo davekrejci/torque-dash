@@ -13,6 +13,7 @@ let editModule = {
         this.renderSessionInfo();
     },
     cacheDOM: function() {
+        this.$loadOverlay = $('#loadOverlay').hide();
         this.$sessionInfoName = $('#sessionInfoName');
         this.$sessionInfoStartDate = $('#sessionInfoStartDate');
         this.$sessionInfoEndDate = $('#sessionInfoEndDate');
@@ -28,14 +29,96 @@ let editModule = {
         this.$endLocationInput = $('#endLocationInput');
         this.$getGeocodeLocationButton = $('#getGeocodeLocationButton');
         this.$addLocationsButton = $('#addLocationsButton');
+        this.$filterNumberSlider = $('#filterNumberSlider');
+        this.$filterNumberLabel = $('#filterNumberLabel');
+        this.$filterButton = $('#filterSessionModalButton');
+        this.$cutModal = $('#cutSessionModal');
+        this.$cutButton = $('#cutSessionModalButton');
+
     },
     bindEvents: function() {
-        this.$renameButton.on("click", this.renameSession.bind(this) )
-        this.$copyButton.on("click", this.copySession.bind(this) )
-        this.$deleteButton.on("click", this.deleteSession.bind(this) )
-        this.$getGeocodeLocationButton.on("click", this.getGeocodeLocation.bind(this) )
-        this.$addLocationsButton.on("click", this.addLocationsToSession.bind(this) )
+        $(document).ajaxStart( this.showLoadOverlay.bind(this) );
+        $(document).ajaxStop( this.hideLoadOverlay.bind(this) );
+        this.$renameButton.on("click", this.renameSession.bind(this) );
+        this.$copyButton.on("click", this.copySession.bind(this) );
+        this.$deleteButton.on("click", this.deleteSession.bind(this) );
+        this.$getGeocodeLocationButton.on("click", this.getGeocodeLocation.bind(this) );
+        this.$addLocationsButton.on("click", this.addLocationsToSession.bind(this) );
         this.map.markerLayer.on("click", this.selectMarkers.bind(this));
+        this.$filterNumberSlider.on('input', this.updateFilterLabel.bind(this) );
+        this.$filterButton.on("click", this.filterSession.bind(this) );
+        this.$cutModal.on('show.bs.modal', this.populateCutModal.bind(this) );
+        this.$cutButton.on("click", this.cutSession.bind(this) );
+        
+    },
+    cutSession: async function() {
+        try{
+            let from = this.session.Logs[this.cutstart].timestamp;
+            let to = this.session.Logs[this.cutend].timestamp;
+            await Session.cutSession(this.session.id, from, to);
+            Swal.fire({
+                type: 'success',
+                title: 'Success!',
+                text: 'Session cut!'
+            });
+            this.cutstart = null;
+            this.cutend = null;
+            await this.getSession();
+            this.renderSessionInfo();
+            this.drawSession();
+        }
+        catch(err) {
+            console.log(err);
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong! Please try again.'
+            });
+        }
+    },
+    populateCutModal: function() {
+        if(this.cutstart === null || this.cutend === null) {
+            this.$cutModal.find('#cutMessage').text("Oops, looks like you haven't made a selection!");
+            this.$cutButton.attr("disabled", true);
+        }
+        else {
+            let startTime = this.session.Logs[this.cutstart].timestamp;
+            let endTime = this.session.Logs[this.cutend].timestamp;
+            let message = `Cut session from ${moment(startTime).format('HH:mm:ss')} to ${moment(endTime).format('HH:mm:ss')}?`
+            this.$cutModal.find('#cutMessage').text(message);
+            this.$cutButton.attr("disabled", false);
+        }
+    },
+    updateFilterLabel: function() {
+        this.$filterNumberLabel.text(this.$filterNumberSlider.val());
+    },
+    showLoadOverlay: function() {
+        this.$loadOverlay.show();
+    },
+    hideLoadOverlay: function() {
+        this.$loadOverlay.hide();
+    },
+    filterSession: async function() {
+        try{
+            let filterNumber = this.$filterNumberSlider.val();
+            await Session.filterSession(this.session.id, filterNumber);
+            Swal.fire({
+                type: 'success',
+                title: 'Success!',
+                text: 'Session filtered!'
+            });
+            await this.getSession();
+            this.renderSessionInfo();
+            this.drawSession();
+        }
+        catch(err) {
+            console.log(err);
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong! Please try again.'
+            });
+        }
     },
     renameSession: async function() {
         try{
@@ -55,7 +138,7 @@ let editModule = {
                 type: 'error',
                 title: 'Oops...',
                 text: 'Something went wrong! Please try again.'
-            })
+            });
         }
     },
     copySession: async function() {
@@ -74,7 +157,7 @@ let editModule = {
                 type: 'error',
                 title: 'Oops...',
                 text: 'Something went wrong! Please try again.'
-            })
+            });
         }
     },
     deleteSession: async function() {
@@ -88,7 +171,7 @@ let editModule = {
                 type: 'error',
                 title: 'Oops...',
                 text: 'Something went wrong! Please try again.'
-            })
+            });
         }
     },
     selectMarkers: function (event) {
@@ -97,21 +180,17 @@ let editModule = {
             this.cutstart = this.map.markerLayer.getLayers().indexOf(marker);
             marker.selected = true;
             marker.setIcon(this.map.selectedIcon);
-            console.log("selection begin", this.map.markerLayer.getLayers().indexOf(marker));
-            console.log('first');
         }
         else if(this.cutend === null) {
             this.cutend = this.map.markerLayer.getLayers().indexOf(marker);
             marker.selected = true;
             marker.setIcon(this.map.selectedIcon);
-            console.log("selection end", this.map.markerLayer.getLayers().indexOf(marker));
             let markers = this.map.markerLayer.getLayers();
             if(this.cutstart > this.cutend) [this.cutstart, this.cutend] = [this.cutend, this.cutstart];
             for (let i = this.cutstart; i <= this.cutend; i++) {
                 markers[i].selected = true;
                 markers[i].setIcon(this.map.selectedIcon);
             }
-            console.log('second');
     
         }
         else if(this.cutend !== null) {
@@ -125,9 +204,6 @@ let editModule = {
             this.cutend = null;
             marker.selected = true;
             marker.setIcon(this.map.selectedIcon);
-            console.log("selection begin", this.map.markerLayer.getLayers().indexOf(marker));
-            console.log('third');
-    
         }
     
         
@@ -150,7 +226,6 @@ let editModule = {
         if(this.session.duration.hours)    duration += ` ${this.session.duration.hours}h`;
         if(this.session.duration.minutes)  duration += ` ${this.session.duration.minutes}min`;
         if(this.session.duration.seconds)  duration += ` ${this.session.duration.seconds}sec`;
-        console.log('duration',duration);
         this.$sessionInfoDuration.text(duration);
     },
     drawSession: function() {

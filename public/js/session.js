@@ -43,6 +43,23 @@ class Session {
                 data : {name: name}
             });
     }
+    static filterSession(id, filterNumber) {
+        return $.ajax({
+                type: 'PATCH',
+                url: `/api/sessions/filter/${id}`,
+                data : {filterNumber: filterNumber}
+            });
+    }
+    static cutSession(id, from, to) {
+        return $.ajax({
+                type: 'PATCH',
+                url: `/api/sessions/cut/${id}`,
+                data : {
+                    from: from,
+                    to: to
+                }
+            });
+    }
     static addLocations(id, locations) {
         return $.ajax({
                 type: 'PATCH',
