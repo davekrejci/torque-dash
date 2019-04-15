@@ -3,7 +3,6 @@ let config = {
     db: {
         uri: process.env.DATABASE_URL || 'postgres://postgres:heslo@localhost:5432/torquedash',
         options: {
-            operatorsAliases: false,
             logging: false
         }
     },
