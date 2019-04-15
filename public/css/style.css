@@ -33,6 +33,7 @@ html, body{
     align-items: stretch;
 }
 #content {
+    position: relative;
     overflow-y: scroll;
     height: calc(100vh - var(--header-height));
 }
@@ -310,6 +311,17 @@ a.dropdown-item.active {
 /*******************************
         Curved table
 *******************************/
+@media (min-width: 576px) {
+    .modal-lg {
+        max-width: 90vw;
+    }
+
+}
+
+
+/*******************************
+        Curved table
+*******************************/
 .table-curved {
     color: #333;
     border-collapse: separate;
@@ -490,6 +502,53 @@ a.dropdown-item.active {
     list-style-type: none;
     margin: auto;
     padding-left: 0;
+}
+
+
+/*******************************
+        Loading spinner
+*******************************/
+.loadOverlay {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgba(0,0,0,0.7);
+    z-index: 9999;
+}
+
+.overlayInner {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.overlayContent {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.spinner {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    border-width: 5px;
+    border-color: rgba(255, 255, 255, 0.05);
+    border-top-color: var(--accent-color);
+    animation: spin 1s infinite linear;
+    border-radius: 100%;
+    border-style: solid;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 

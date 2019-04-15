@@ -1,25 +1,5 @@
 /* eslint-disable */
 
-
-// let OverviewModule = {
-//     init: function() {
-//         this.cacheDOM();
-//         this.bindEvents();
-//         this.session = await Session.getSession(this.sessionId);
-//     },
-//     cacheDOM: function() {
-//         this.$logTable = $('#logTable');
-//         this.$renameButton = $('#renameButton');
-//     },
-//     bindEvents: function() {
-//         this.$renameButton.on("click", displayRenameModal )
-//     },
-//     displayRenameModal: function() {
-        
-//     }
-
-// }
-
 // On page load
 $(document).ready(function () {
     // Initialize datatable
@@ -27,52 +7,38 @@ $(document).ready(function () {
         "dom": '<f<t><"my-3"i><"my-3"p>>',
         "bLengthChange": false,
         "pageLength": 5,
-        responsive: true
-    });
-    
-
-    // Enable tooltips
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-      })
-    
-    // Setup delete session modal data
-    $('#deleteProductModal').on('show.bs.modal', function (event) {
-        let button = $(event.relatedTarget); // Button that triggered the modal
-        let id = button.data('id'); // Extract info from data-* attributes
-        let modal = $(this);
-        modal.find('.modal-footer #modalDeleteButton').attr("onclick", "deleteProduct('" + id + "')");
-        modal.find('#productName').html(name);
+        responsive: true,
+        ajax: {
+            url: '/api/sessions',
+            dataSrc: ''
+        },
+        columns: [
+            { data: 'name' },
+            { data: 'startDate' },
+            { data: 'endDate' },
+            { data: 'duration' },
+            { data: 'startLocation' },
+            { data: 'endLocation' },
+            { data: null },
+        ],
+        columnDefs: [
+            {
+                // puts buttons in the last column
+                targets: [-1], render: function (data, type, row, meta) {
+                    return `<a data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-primary table-button rounded primary-tooltip" href="/edit/${data.id}"><i class="fas fa-pen"></i></a>
+                    <span data-toggle="tooltip" data-placement="top" title="Delete">
+                    <button class="btn btn-primary table-button rounded primary-tooltip" data-toggle="modal" data-target="#deleteSessionModal"
+                        data-id="${data.id}"><i class="fas fa-trash"></i></button>
+                    </span>`
+                }
+        }],
     });
 });
 
-// ------------------- DELETE MODAL -------------------- //
+    
+    
+    
 
-
-function deleteProduct(id) {
-    $('#deleteProductModal').modal('hide');
-    // Session.deleteSession(id);
-    $.ajax({
-            type: 'DELETE',
-            url: `/api/sessions/${id}`,
-        })
-        .done(function (response) {
-            Swal.fire({
-                type: 'success',
-                title: 'Success!',
-                text: 'Locations added!'
-            });
-        })
-        .fail(function (err) {
-            // Show alert message
-            console.log(err);
-            Swal.fire({
-                type: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong! Please try again.'
-            });
-        });
-}
 
 
 

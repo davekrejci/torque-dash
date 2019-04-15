@@ -15,45 +15,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody id="data">
-                {{#each sessions}}
-                <tr>
-                    <td>{{this.dataValues.name}}</td>
-                    <td>{{this.dataValues.startDate}}</td>
-                    <td>{{this.dataValues.endDate}}</td>
-                    <td>
-                            {{#if this.dataValues.duration.days}}
-                            {{this.dataValues.duration.days}} days
-                            {{/if}}
-                            {{#if this.dataValues.duration.hours}}
-                            {{this.dataValues.duration.hours}}h
-                            {{/if}}
-                            {{#if this.dataValues.duration.minutes}}
-                            {{this.dataValues.duration.minutes}}min
-                            {{/if}}
-                            {{#if this.dataValues.duration.seconds}}
-                            {{this.dataValues.duration.seconds}}sec
-                            {{/if}}
-
-                    </td>
-                    <td>
-                        {{this.dataValues.startLocation}}
-                    </td>
-                    <td>
-                        {{this.dataValues.endLocation}}
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <a data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-primary table-button rounded primary-tooltip" href="/edit/{{this.id}}"><i class="fas fa-pen"></i></a>
-                            <span data-toggle="tooltip" data-placement="top" title="Delete">
-                            <button class="btn btn-primary table-button rounded primary-tooltip" data-toggle="modal" data-target="#deleteSessionModal"
-                                data-id="{{this.id}}"><i class="fas fa-trash"></i></button>
-                            </span>
-                        </div>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
+            <tbody id="data"></tbody>
         </table>
         </div>
         <div class="modal fade" id="deleteSessionModal" tabindex="-1" role="dialog" aria-labelledby="deleteSessionModal" aria-hidden="true">

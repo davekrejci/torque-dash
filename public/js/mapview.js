@@ -13,7 +13,27 @@ $(document).ready(async function () {
         "dom": '<f<t><"my-3"i><"my-3"p>>',
         "bLengthChange": false,
         "pageLength": 5,
-        responsive: true
+        responsive: true,
+        ajax: {
+            url: '/api/sessions',
+            dataSrc: ''
+        },
+        columns: [
+            { data: 'name' },
+            { data: 'startDate' },
+            { data: 'endDate' },
+            { data: 'duration' },
+            { data: 'startLocation' },
+            { data: 'endLocation' },
+            { data: null },
+        ],
+        columnDefs: [
+            {
+                // put select button in the last column
+                targets: [-1], render: function (data, type, row, meta) {
+                    return `<button class="btn btn-primary m-2" onclick="selectSession(${data.id})">Select</button>`
+                }
+        }],
     });
 
     Split(['#map', '#graph'], {
@@ -24,6 +44,10 @@ $(document).ready(async function () {
         cursor: 'row-resize',
 
     });
+
+    let loadOverlay = $('#loadOverlay').hide();
+    $(document).ajaxStart( () => loadOverlay.show() );
+    $(document).ajaxStop( () => loadOverlay.hide() );
 
     
     //get list of user sessions from api

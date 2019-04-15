@@ -9,7 +9,11 @@
                 <canvas id="chart"></canvas>
             </div>
         </div>
-
+        <div id="loadOverlay" class="loadOverlay">
+            <div class="overlayInner">
+                <div class="overlayContent"><span class="spinner"></span></div>
+            </div>
+        </div>
     </div>
   </div>
 </div>
@@ -34,76 +38,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody id="data">
-                {{#each sessions}}
-                <tr>
-                    <td>{{this.dataValues.name}}</td>
-                    <td>{{this.dataValues.startDate}}</td>
-                    <td>{{this.dataValues.endDate}}</td>
-                    <td>
-                            {{#if this.dataValues.duration.days}}
-                            {{this.dataValues.duration.days}} days
-                            {{/if}}
-                            {{#if this.dataValues.duration.hours}}
-                            {{this.dataValues.duration.hours}}h
-                            {{/if}}
-                            {{#if this.dataValues.duration.minutes}}
-                            {{this.dataValues.duration.minutes}}min
-                            {{/if}}
-                            {{#if this.dataValues.duration.seconds}}
-                            {{this.dataValues.duration.seconds}}sec
-                            {{/if}}
-
-                    </td>
-                    <td>
-                            {{#if this.dataValues.startLocation.road}}
-                            {{this.dataValues.startLocation.road}}
-                            {{/if}}
-                            {{#if this.dataValues.startLocation.house_number}}
-                            {{this.dataValues.startLocation.house_number}} <br>
-                            {{/if}}
-                            {{#if this.dataValues.startLocation.town}}
-                            {{this.dataValues.startLocation.town}}
-                            {{/if}}
-                            {{#if this.dataValues.startLocation.state}}
-                            {{this.dataValues.startLocation.state}} <br>
-                            {{/if}}
-                            {{#if this.dataValues.startLocation.postcode}}
-                            {{this.dataValues.startLocation.postcode}}
-                            {{/if}}
-                            {{#if this.dataValues.startLocation.country}}
-                            {{this.dataValues.startLocation.country}}
-                            {{/if}}
-                    </td>
-                    <td>
-                            {{#if this.dataValues.endLocation.road}}
-                            {{this.dataValues.endLocation.road}}
-                            {{/if}}
-                            {{#if this.dataValues.endLocation.house_number}}
-                            {{this.dataValues.endLocation.house_number}} <br>
-                            {{/if}}
-                            {{#if this.dataValues.endLocation.town}}
-                            {{this.dataValues.endLocation.town}}
-                            {{/if}}
-                            {{#if this.dataValues.endLocation.state}}
-                            {{this.dataValues.endLocation.state}} <br>
-                            {{/if}}
-                            {{#if this.dataValues.endLocation.postcode}}
-                            {{this.dataValues.endLocation.postcode}}
-                            {{/if}}
-                            {{#if this.dataValues.endLocation.country}}
-                            {{this.dataValues.endLocation.country}}
-                            {{/if}}
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <button class="btn btn-primary m-2" onclick="selectSession({{this.id}})">Select</button>
-                            </span>
-                        </div>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
+            <tbody id="data"></tbody>
         </table>
         </div>
             </div>
