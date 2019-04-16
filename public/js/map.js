@@ -222,6 +222,8 @@ class EditMap extends Map {
         super(container);
         this.unselectedIcon = L.divIcon({className: 'map-marker'});
         this.selectedIcon = L.divIcon({className: 'map-marker-active'});
+        this.joinMarkerLayer = L.featureGroup().addTo(this.map);
+        this.joinPathLayer = L.featureGroup().addTo(this.map);
     }
     drawSession(session) {
         // Remove current session layer
@@ -249,6 +251,36 @@ class EditMap extends Map {
 
         // Create polyline over session path
         let path = L.polyline(coordinates, {color: 'green'}).addTo(this.pathLayer);
+
+        // zoom the map to the polyline
+        this.map.fitBounds(path.getBounds());
+    }
+    drawJoinSession(session) {
+        // Remove current session layer
+        this.joinMarkerLayer.clearLayers();
+        this.joinPathLayer.clearLayers();
+
+        // Loop through all logs in session
+        let coordinates = new Array;
+        session.Logs.forEach(log => {
+
+            let timestamp = moment(log.timestamp).format("HH:mm:ss");
+            // Create array of coordinates + value for creating color graded path
+            coordinates.push([log.lat, log.lon]);
+    
+            // Add markers at each log position
+            let marker = L.marker([log.lat, log.lon], {icon: this.unselectedIcon })
+                .bindPopup(`
+                <div><b>${timestamp}</b></div>
+                `, { closeButton: false })
+                .on('mouseover', function (e) { this.openPopup(); })
+                .on('mouseout', function (e) { this.closePopup(); })
+                .addTo(this.joinMarkerLayer);
+            marker.timestamp = timestamp;
+        });  
+
+        // Create polyline over session path
+        let path = L.polyline(coordinates, {color: 'blue'}).addTo(this.joinPathLayer);
 
         // zoom the map to the polyline
         this.map.fitBounds(path.getBounds());

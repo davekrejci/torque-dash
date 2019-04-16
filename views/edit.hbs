@@ -25,7 +25,10 @@
                     <div class="my-1"></div>
                     <button class="btn btn-light my-1" data-toggle="modal" data-target="#filterSessionModal">Filter session</button>
                     <button class="btn btn-light my-1" data-toggle="modal" data-target="#cutSessionModal">Cut selection</button>
-                    <button class="btn btn-light my-1" data-toggle="modal" data-target="#selectJoinSessionModal">Join with another session</button>
+                    <div class="btn-group">
+                        <button class="btn btn-light m-1 w-50" data-toggle="modal" data-target="#selectJoinSessionModal">Select join session</button>
+                        <button id="joinButton" class="btn btn-light m-1 w-50" data-toggle="modal" data-target="#confirmJoinSessionModal" disabled="true">Join sessions</button>
+                    </div>
                 </div>
             
             </div>
@@ -182,6 +185,24 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirmJoinSessionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Confirmation
+            </div>
+            <div class="modal-body">
+                Join sessions?
+                <label for="copyName">Joined Name:</label>
+                <input type="text" class="form-control" name="joinedName" id="joinedNameInput">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" id="joinSessionModalButton" class="btn btn-primary" data-dismiss="modal">Join</button>
             </div>
         </div>
     </div>

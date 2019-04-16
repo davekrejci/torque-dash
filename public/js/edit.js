@@ -2,12 +2,14 @@
 let editModule = {
     map: {},
     session: {},
+    joinSession: {},
     cutstart: null,
     cutend: null,
     init: async function() {
         await this.getSession();
         this.map = new EditMap('editMap');
         this.cacheDOM();
+        this.initLogTable();
         this.drawSession();
         this.bindEvents();
         this.renderSessionInfo();
@@ -34,7 +36,10 @@ let editModule = {
         this.$filterButton = $('#filterSessionModalButton');
         this.$cutModal = $('#cutSessionModal');
         this.$cutButton = $('#cutSessionModalButton');
-
+        this.$joinButton = $('#joinButton');
+        this.$joinConfirmButton = $('#joinSessionModalButton');
+        this.$joinedNameInput = $('#joinedNameInput');
+        this.$logTable = $('#logTable');
     },
     bindEvents: function() {
         $(document).ajaxStart( this.showLoadOverlay.bind(this) );
@@ -49,7 +54,73 @@ let editModule = {
         this.$filterButton.on("click", this.filterSession.bind(this) );
         this.$cutModal.on('show.bs.modal', this.populateCutModal.bind(this) );
         this.$cutButton.on("click", this.cutSession.bind(this) );
+        this.$joinConfirmButton.on("click", this.joinSession.bind(this) );
         
+    },
+    initLogTable: async function() {
+        this.$logTable.DataTable({
+            "dom": '<f<t><"my-3"i><"my-3"p>>',
+            "bLengthChange": false,
+            "pageLength": 5,
+            responsive: true,
+            ajax: {
+                url: '/api/sessions',
+                dataSrc: ''
+            },
+            columns: [
+                { data: 'name' },
+                { data: 'startDate' },
+                { data: 'endDate' },
+                { data: 'duration' },
+                { data: 'startLocation' },
+                { data: 'endLocation' },
+                { data: null },
+            ],
+            columnDefs: [
+                {
+                    // puts buttons in the last column
+                    targets: [-1], render: function (data, type, row, meta) {
+                        return `<button class="btn btn-primary m-2" data-dismiss="modal" onclick="editModule.selectJoinSession(${data.id})">Select</button>`
+                    }
+            }],
+        });
+    },
+    selectJoinSession: async function(id) {
+        try{
+            this.joinSession = await Session.getSession(id);
+            this.drawJoinSession();
+            this.$joinButton.attr('disabled', false);
+        }
+        catch(err) {
+            console.log(err);
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong! Please try again.'
+            });
+        }
+    },
+    joinSession: async function() {
+        try{
+            await Session.joinSession(
+                this.session.id,
+                this.joinSession.id, 
+                this.$joinedNameInput.val()
+            );
+            Swal.fire({
+                type: 'success',
+                title: 'Success!',
+                text: 'Sessions joined!'
+            });
+        }
+        catch(err) {
+            console.log(err);
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong! Please try again.'
+            });
+        }
     },
     cutSession: async function() {
         try{
@@ -230,6 +301,9 @@ let editModule = {
     },
     drawSession: function() {
         this.map.drawSession(this.session);
+    },
+    drawJoinSession: function() {
+        this.map.drawJoinSession(this.joinSession);
     },
     getGeocodeLocation: async function() {
         // find first and last log in session

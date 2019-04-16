@@ -60,6 +60,16 @@ class Session {
                 }
             });
     }
+    static joinSession(id, joinSessionId, name) {
+        return $.ajax({
+                type: 'POST',
+                url: `/api/sessions/join/${id}`,
+                data : {
+                    joinSessionId: joinSessionId,
+                    name: name
+                }
+            });
+    }
     static addLocations(id, locations) {
         return $.ajax({
                 type: 'PATCH',

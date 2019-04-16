@@ -21,6 +21,7 @@ router.patch('/sessions/addlocation/:sessionId', authenticate, SessionController
 router.patch('/sessions/filter/:sessionId', authenticate, SessionController.filter);
 router.patch('/sessions/cut/:sessionId', authenticate, SessionController.cut);
 router.post('/sessions/copy/:sessionId', authenticate, SessionController.copy);
+router.post('/sessions/join/:sessionId', authenticate, SessionController.join);
 
 
 module.exports = router;
