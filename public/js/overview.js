@@ -32,6 +32,7 @@ $(document).ready(function () {
                     </span>`
                 }
         }],
+        order: [ 1, "desc" ],
     });
 });
 

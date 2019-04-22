@@ -18,6 +18,7 @@ router.patch('/users/shareid', authenticate, UserController.toggleShareId);
 
 router.get('/sessions', authenticate, SessionController.getAll);
 router.get('/sessions/shared/:shareId', SessionController.getAllShared);
+router.get('/sessions/shared/:shareId/:sessionId', SessionController.getOneShared);
 router.get('/sessions/:sessionId', authenticate, SessionController.getOne);
 router.delete('/sessions/:sessionId', authenticate, SessionController.delete);
 

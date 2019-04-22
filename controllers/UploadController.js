@@ -3,24 +3,41 @@ const User = require('../models').User;
 const Session = require('../models').Session;
 const _ = require('lodash');
 const moment = require('moment');
+const request = require('request');
 
 class UploadController {  
     static async processUpload(req, res) {
-        let { eml, session, time } = req.query;
-        let lon = req.query.kff1005;
-        let lat = req.query.kff1006;
-
-        // check for duplicate gps values (when selecting always send gps values in settings + choosing gps pids in pid list)
-        if (Array.isArray(lon)) lon = lon[0];
-        if (Array.isArray(lat)) lat = lat[0];
-
-        // Check if request has gps position data - filters out meta logs
-        if (lon == null || lat == null) return res.status(200).send('OK!');
-
         try {
+            let { eml, session, time } = req.query;
+            let lon = req.query.kff1005;
+            let lat = req.query.kff1006;
+
+            // check for duplicate gps values (when selecting always send gps values in settings + choosing gps pids in pid list)
+            if (Array.isArray(lon)) lon = lon[0];
+            if (Array.isArray(lat)) lat = lat[0];
+
+            // Check if request has gps position data - filters out meta logs
+            if (lon == null || lat == null) return res.status(200).send('OK!');
+
             // Check if user exists
             let user = await User.findOne({ where: { email: eml } });
             if (!user) return res.status(403).send('Invalid user account.');
+
+            // Check if user set any forward URLs, resend request
+            let urls = user.forwardUrls;
+            urls.forEach(url => {
+                try{
+                    request({
+                        method: 'GET',
+                        url: url,
+                        qs: req.query,
+                        headers: {}
+                    });
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            });
 
             //Check if session already exists or create new
             let currentSession = await Session.findOrCreate({

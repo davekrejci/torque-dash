@@ -64,9 +64,34 @@ class SessionController {
             res.sendStatus(500);
         }
     }
+    static async getOneShared(req, res) {
+        try{
+            // Check if user exists
+            let user = await User.findOne({
+                where: { shareId: req.params.shareId }
+            });
+            if(!user) return res.sendStatus(404);
+
+            // Get session for user
+            let session = await Session.findOne({
+                where: { 
+                    userId: user.id,
+                    id: req.params.sessionId
+                },
+                // Include array of logs from session
+                include: [ { model: Log, as: 'Logs' } ],
+                order: [[ {model: Log, as: 'Logs'}, 'timestamp', 'ASC' ]]
+            });
+            await addStartEndData(session);
+            res.send(session);
+        }
+        catch (err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
+    }
     static async getAllShared(req, res) {
         try {
-            console.log(req.params.shareId);
             // Check if user exists
             let user = await User.findOne({
                 where: { shareId: req.params.shareId }
@@ -81,7 +106,6 @@ class SessionController {
                 order: [[ {model: Log, as: 'Logs'}, 'timestamp', 'ASC' ]]
             });
             await addStartEndData(sessions);
-            console.log(sessions);
             res.send(sessions);
         }
         catch (err) {

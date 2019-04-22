@@ -50,7 +50,7 @@ class Map {
         // Add zoom control
         new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
-        // Resize map on width change (resizeobserver only works in chromium atm)
+        // Resize map on width change (resizeobserver only works in webkit atm)
         new ResizeObserver(() => {
             this.map.invalidateSize();
         }).observe(document.getElementById(container));
@@ -86,10 +86,23 @@ class ViewMap extends Map {
                 pidSelect['data-live-search'] = 'true';   
                 pidSelect.title = 'Select PID';
 
-                // container.appendChild(sessionSelect);
+                let toggleDiv = L.DomUtil.create('div', 'my-1 ml-1');
+                let toggleDescription = L.DomUtil.create('small');
+                toggleDescription.innerText = 'Update:';
+                let updateToggleLabel = L.DomUtil.create('label', 'switch small ml-1');
+                let updateToggleInput = L.DomUtil.create('input');
+                updateToggleInput.id = 'toggleUpdate';
+                updateToggleInput.type = 'checkbox';
+                let updateToggleSpan = L.DomUtil.create('span', 'slider small round');
+                updateToggleLabel.appendChild(updateToggleInput);
+                updateToggleLabel.appendChild(updateToggleSpan);
+                toggleDiv.appendChild(toggleDescription);
+                toggleDiv.appendChild(updateToggleLabel);
+
                 container.appendChild(sessionSelect);
                 container.appendChild(sessionName);
                 container.appendChild(pidSelect);
+                container.appendChild(toggleDiv);
             
                 return container;
             }
