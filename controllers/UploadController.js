@@ -25,19 +25,21 @@ class UploadController {
 
             // Check if user set any forward URLs, resend request
             let urls = user.forwardUrls;
-            urls.forEach(url => {
-                try{
-                    request({
-                        method: 'GET',
-                        url: url,
-                        qs: req.query,
-                        headers: {}
-                    });
-                }
-                catch (err) {
-                    console.log(err);
-                }
-            });
+            if(urls) {
+                urls.forEach(url => {
+                    try{
+                        request({
+                            method: 'GET',
+                            url: url,
+                            qs: req.query,
+                            headers: {}
+                        });
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
+                });
+            }
 
             //Check if session already exists or create new
             let currentSession = await Session.findOrCreate({
