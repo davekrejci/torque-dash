@@ -53,7 +53,7 @@ let MapViewModule = {
         this.cacheDOM();
         this.bindEvents();
         // Select first session
-        this.selectSession(this.sessions[0].id);
+        this.selectSession(this.sessions[this.sessions.length - 1].id);
         //activate chosen selects
         this.$chosenSelects.chosen();
     },
