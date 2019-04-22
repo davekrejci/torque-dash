@@ -146,7 +146,11 @@ th {
 #dropdownMenuButton:hover {
     cursor: pointer;
 }
-a.dropdown-item:hover{
+.dropdown-item {
+    color: #333;
+    background-color: #fff;
+}
+.dropdown-item:hover {
     color: var(--accent-color);
     background-color: #fff;
 }

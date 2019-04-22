@@ -43,14 +43,18 @@ let overviewModule = {
                 {
                     // puts buttons in the last column
                     targets: [-1], render: function (data, type, row, meta) {
-                        return `<a data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-primary table-button rounded primary-tooltip" href="/edit/${data.id}"><i class="fas fa-pen"></i></a>
-                        <span data-toggle="tooltip" data-placement="top" title="Delete">
-                        <button class="btn btn-primary table-button rounded primary-tooltip" data-toggle="modal" data-target="#deleteSessionModal"
-                            data-id="${data.id}"><i class="fas fa-trash"></i></button>
-                        </span>
-                        <span data-toggle="tooltip" data-placement="top" title="Export">
-                            <button class="btn btn-primary table-button rounded primary-tooltip exportButton" onclick="overviewModule.exportCSV(${data.id})" data-id="${data.id}"><i class="fas fa-download"></i></button>
-                        </span>`
+                        return `
+                        <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-wrench"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="/edit/${data.id}"><i class="fas fa-pen mr-2"></i>Edit</a>
+                          <button class="dropdown-item" data-toggle="modal" data-target="#deleteSessionModal" data-id="${data.id}"><i class="fas fa-trash mr-2"></i>Delete</button>
+                          <button class="dropdown-item" onclick="overviewModule.exportCSV(${data.id})" data-id="${data.id}"><i class="fas fa-download mr-2"></i>Export CSV</button>
+                        </div>
+                      </div>
+                        `
                     }
             }],
             order: [ 1, "desc" ],
