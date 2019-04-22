@@ -87,7 +87,7 @@ class ViewMap extends Map {
                 pidSelect.title = 'Select PID';
 
                 let toggleDiv = L.DomUtil.create('div', 'my-1 ml-1');
-                let toggleDescription = L.DomUtil.create('small');
+                let toggleDescription = L.DomUtil.create('small', 'badge badge-light px-2');
                 toggleDescription.innerText = 'Update:';
                 let updateToggleLabel = L.DomUtil.create('label', 'switch small ml-1');
                 let updateToggleInput = L.DomUtil.create('input');
