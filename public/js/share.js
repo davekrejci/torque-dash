@@ -59,8 +59,8 @@ let shareModule = {
         }
         else {
             this.$switch.prop('checked', true);
-            var host = window.location.host;
-            let link = `${host}/shareview/${this.shareId}`;
+            let origin = window.location.origin;
+            let link = `${origin}/shareview/${this.shareId}`;
             this.$shareMessage.html(`Your sessions are now publicly viewable at <a href="${link}">${link}</a>.`);
         }
     }
