@@ -40,6 +40,8 @@ app.set('views', path.join(__dirname, '/views'));
 // Define routes
 app.use('/', require('./routes/web.js'));
 app.use('/api', require('./routes/api.js'));
+// Since this is the last middleware used, assume 404, as nothing else responded.
+app.use('*', require('./routes/404.js'));
 
 // Connect to database and sync models
 sequelize.sync(
