@@ -1,0 +1,38 @@
+<div class="container-fluid wrapper">
+    {{> sidebar }}
+    <!-- Content -->
+    <div class="container-fluid p-3" id="content">
+        <div class="row">
+            <div class="col-md-6 my-1">
+                <div class="card p-4 border-light bg-light">
+                    <small class="mb-2 badge badge-pill badge-light">Toggle sharing</small>
+                    <label class="switch">
+                        <input id="switch" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                    <p id="shareMessage" class="mt-4"></p>
+                </div>
+            </div>
+            <div class="col-md-6 my-1">
+                <div class="card p-4 border-light bg-light">
+                    <small class="mb-2 badge badge-pill badge-light">Forward requests</small>
+                    <form id="forwardForm" action="">
+                        <div class="input-group">
+                        <input type="url" name="forwardUrlInput" class="form-control" id="forwardInput" required>
+                        <div class="input-group-append">
+                        <input type="submit" class="btn btn-primary" value="Add">
+                        </div>
+                        </div>
+                    </form>
+                    <ul id="forwardList" class="list-group mt-1"></ul>
+                </div>
+            </div>
+        </div>
+        <div id="loadOverlay" class="loadOverlay">
+            <div class="overlayInner">
+                <div class="overlayContent"><span class="spinner"></span></div>
+            </div>
+        </div>
+    </div>
+
+</div>

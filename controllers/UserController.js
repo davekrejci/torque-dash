@@ -1,5 +1,6 @@
 const User = require('../models').User;
 const passport = require('passport');
+const shortid = require('shortid');
 
 class UserController {
     static async login(req, res, next) {
@@ -36,6 +37,77 @@ class UserController {
 
         } catch (err) {
             console.log('Error:', err.message);
+            res.sendStatus(500);
+        }
+    }
+    static async getForwardUrls(req, res) {
+        try{
+            let user = await User.findOne({
+                where: { id: req.user.id }
+            });
+            let forwardUrls = user.forwardUrls;
+            console.log(forwardUrls);
+            if(!forwardUrls) return res.send([]);
+            res.send(forwardUrls);
+        }
+        catch(err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
+    }
+    static async updateForwardUrls(req, res) {
+        try{
+            let urls = req.body.urls;
+            let user = await User.findOne({
+                where: { id: req.user.id }
+            });
+            if(!urls) {
+                await user.update({
+                    forwardUrls: null
+                });
+                return res.sendStatus(200);
+            }
+            await user.update({
+                forwardUrls: urls
+            });
+            res.sendStatus(200);
+        }
+        catch(err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
+    }
+    static async getShareId(req, res) {
+        try{
+            let user = await User.findOne({
+                where: { id: req.user.id }
+            });
+            let shareId = user.shareId;
+            console.log(shareId);
+            res.status(200).send(shareId);
+        }
+        catch(err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
+    }
+    static async toggleShareId(req, res) {
+        try{
+            let user = await User.findOne({
+                where: { id: req.user.id }
+            });
+            let shareId = user.shareId;
+            if(!shareId){
+                await user.update({ shareId: shortid.generate() });
+            }
+            else {
+                await user.update({ shareId: null });
+            }
+            res.sendStatus(200);
+        }
+        catch(err) {
+            console.log(err);
+            res.sendStatus(500);
         }
     }
 }

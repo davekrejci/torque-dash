@@ -8,6 +8,8 @@ router.get('/login', PageController.renderLogin );
 router.get('/register', PageController.renderRegister );
 router.get('/overview', authenticate, PageController.renderOverview );
 router.get('/mapview', authenticate, PageController.renderMapview );
+router.get('/shareview/:shareId', PageController.renderShareview );
+router.get('/share', authenticate, PageController.renderShare );
 router.get('/edit/:sessionId', authenticate, PageController.renderEdit );
 
 module.exports = router;

@@ -1,3 +1,4 @@
+const User = require('../models').User;
 
 class PageController {
     static async renderOverview(req, res) {
@@ -14,6 +15,15 @@ class PageController {
             mapview: true,
             userEmail: req.user.email,
             loggedIn: true
+        });
+    }
+    static async renderShareview(req, res) {
+        // check if shareview exists
+        let user = await User.findOne({ where: { shareId: req.params.shareId } });
+        if(!user) return res.render('404');
+        res.render('shareview', {
+            dashboard: true,
+            shareview: true,
         });
     }
     static async renderLogin(req, res) {
@@ -34,6 +44,14 @@ class PageController {
         res.render('edit', {
             dashboard: true,
             edit: true,
+            userEmail: req.user.email,
+            loggedIn: true
+        });
+    }
+    static async renderShare(req, res) {
+        res.render('share', {
+            dashboard: true,
+            share: true,
             userEmail: req.user.email,
             loggedIn: true
         });

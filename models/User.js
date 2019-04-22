@@ -12,6 +12,13 @@ module.exports = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        shareId: {
+            type: DataTypes.STRING,
+            unique: true
+        },
+        forwardUrls: {
+            type: DataTypes.ARRAY(DataTypes.STRING)
         }
     }, {
         hooks: {

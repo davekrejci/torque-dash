@@ -10,6 +10,10 @@ class Session {
         return $.get('/api/sessions');
     }
 
+    static getShareSessions(shareId) {
+        return $.get(`/api/sessions/shared/${shareId}`);
+    }
+
     /**
      * Method for getting single session by id
      * @param {*} id 

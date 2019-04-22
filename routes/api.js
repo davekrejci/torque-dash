@@ -11,8 +11,13 @@ router.get('/upload', UploadController.processUpload );
 router.post('/users/register', UserController.register);
 router.post('/users/login', UserController.login);
 router.get('/users/logout', UserController.logout);
+router.get('/users/shareid', authenticate, UserController.getShareId);
+router.get('/users/forwardurls', authenticate, UserController.getForwardUrls);
+router.put('/users/forwardurls', authenticate, UserController.updateForwardUrls);
+router.patch('/users/shareid', authenticate, UserController.toggleShareId);
 
 router.get('/sessions', authenticate, SessionController.getAll);
+router.get('/sessions/shared/:shareId', SessionController.getAllShared);
 router.get('/sessions/:sessionId', authenticate, SessionController.getOne);
 router.delete('/sessions/:sessionId', authenticate, SessionController.delete);
 

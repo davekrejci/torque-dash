@@ -1,0 +1,49 @@
+<div class="container-fluid wrapper">
+  <!-- Content -->
+  <div class="dashcontainer container-fluid">
+        <div id='map' class="split content"></div>
+        <div id="graph" class="split content px-3 py-1">
+            <select id='pidSelectChart' class="chosen-select w-100" data-placeholder="Choose from PIDs..." multiple></select>
+            <div class="chart-container row mt-2">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+        <div id="loadOverlay" class="loadOverlay">
+            <div class="overlayInner">
+                <div class="overlayContent"><span class="spinner"></span></div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="selectSessionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                Select a session
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+        <table class="table table-curved table-striped table-bordered dt-responsive display nowrap" id="logTable" style="width:100%">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>Name</th>
+                    <th>Started</th>
+                    <th>Ended</th>
+                    <th>Duration</th>
+                    <th>Starting Location</th>
+                    <th>End Location</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="data"></tbody>
+        </table>
+        </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
