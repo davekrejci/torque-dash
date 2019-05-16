@@ -64,19 +64,19 @@ let MapViewModule = {
         this.$selectSessionModal = $('#selectSessionModal');
         this.$sessionName = $('#sessionName');
         this.$chosenSelects = $(".chosen-select");
-        this.$toggleUpdate = $('#toggleUpdate');
+        this.$liveIndicator = $('#liveIndicator');
     },
     bindEvents: function() {
         $(document).ajaxStart( this.showLoadOverlay.bind(this) );
         $(document).ajaxStop( this.hideLoadOverlay.bind(this) );
         this.$pidSelectMap.on('change', () => { this.map.drawSession(this.currentSession) });
         this.$pidSelectChart.on('change', this.plotChart.bind(this) );
-        this.$toggleUpdate.on("click", this.toggleUpdateData.bind(this) );
     },
     toggleUpdateData: function () {
         if(this.updating) {
             clearInterval(this.updateInterval);
             this.updateInterval = null;
+            this.$liveIndicator.toggleClass( "d-none" );
             this.updating = false;
         }
         else {
@@ -93,6 +93,7 @@ let MapViewModule = {
                 this.chart.data.labels = timestamps;
                 this.plotChart();
             }.bind(this), 5000);
+            this.$liveIndicator.toggleClass( "d-none" );
             this.updating = true;
         }
     },
@@ -114,7 +115,6 @@ let MapViewModule = {
         // If session end is less than 30 seconds from now, turn on updating (expect active session)
         if( moment().diff(moment(this.currentSession.endDate,'DD.MM.YYYY HH:mm:ss'), 'seconds') < 30  ) {
             this.toggleUpdateData();
-            this.$toggleUpdate.prop( "checked", true );
         }
     },
     updatePidSelect: function(session) {

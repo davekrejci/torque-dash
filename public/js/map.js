@@ -86,23 +86,16 @@ class ViewMap extends Map {
                 pidSelect['data-live-search'] = 'true';   
                 pidSelect.title = 'Select PID';
 
-                let toggleDiv = L.DomUtil.create('div', 'my-1 ml-1');
-                let toggleDescription = L.DomUtil.create('small', 'badge badge-light px-2');
-                toggleDescription.innerText = 'Update:';
-                let updateToggleLabel = L.DomUtil.create('label', 'switch small ml-1');
-                let updateToggleInput = L.DomUtil.create('input');
-                updateToggleInput.id = 'toggleUpdate';
-                updateToggleInput.type = 'checkbox';
-                let updateToggleSpan = L.DomUtil.create('span', 'slider small round');
-                updateToggleLabel.appendChild(updateToggleInput);
-                updateToggleLabel.appendChild(updateToggleSpan);
-                toggleDiv.appendChild(toggleDescription);
-                toggleDiv.appendChild(updateToggleLabel);
+                let liveDiv = L.DomUtil.create('div', 'my-1 ml-1');
+                let liveIndicator = L.DomUtil.create('span', 'badge badge-danger p-2 d-none');
+                liveIndicator.id = 'liveIndicator';
+                liveIndicator.innerHTML = '<i class="fas fa-circle"></i>&nbsp LIVE ';
+                liveDiv.appendChild(liveIndicator);
 
                 container.appendChild(sessionSelect);
                 container.appendChild(sessionName);
                 container.appendChild(pidSelect);
-                container.appendChild(toggleDiv);
+                container.appendChild(liveDiv);
             
                 return container;
             }
