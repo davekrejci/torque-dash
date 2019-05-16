@@ -112,7 +112,7 @@ let MapViewModule = {
         if(this.chart) this.chart.destroy();
         this.createChart(timestamps);
         // If session end is less than 30 seconds from now, turn on updating (expect active session)
-        if( moment().diff(moment(this.currentSession.endDate,'dd.mm.yyyy HH:mm:ss'), 'seconds') < 30  ) {
+        if( moment().diff(moment(this.currentSession.endDate,'DD.MM.YYYY HH:mm:ss'), 'seconds') < 30  ) {
             this.toggleUpdateData();
             this.$toggleUpdate.prop( "checked", true );
         }
