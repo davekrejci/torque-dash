@@ -21,6 +21,7 @@ let MapViewModule = {
                     var return_data = new Array();
                     for(var i=0;i< json.length; i++){
                       return_data.push({
+                        'id': json[i].id,
                         'name': json[i].name,
                         'startDate': moment(json[i].startDate).format('DD.MM.YYYY HH:mm:ss'),
                         'endDate': moment(json[i].endDate).format('DD.MM.YYYY HH:mm:ss'),
