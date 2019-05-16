@@ -17,7 +17,20 @@ let MapViewModule = {
             responsive: true,
             ajax: {
                 url: '/api/sessions',
-                dataSrc: ''
+                dataSrc: function (json) {
+                    var return_data = new Array();
+                    for(var i=0;i< json.length; i++){
+                      return_data.push({
+                        'name': json[i].name,
+                        'startDate': moment(json[i].startDate).format('DD.MM.YYYY HH:mm:ss'),
+                        'endDate': moment(json[i].endDate).format('DD.MM.YYYY HH:mm:ss'),
+                        'duration': json[i].duration,
+                        'startLocation': json[i].startLocation,
+                        'endLocation': json[i].endLocation
+                      })
+                    }
+                    return return_data;
+                  }
             },
             columns: [
                 { data: 'name' },
