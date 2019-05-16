@@ -126,8 +126,8 @@ let MapViewModule = {
         let timestamps = this.currentSession.Logs.map(log => moment(log.timestamp).format("HH:mm:ss"));
         if(this.chart) this.chart.destroy();
         this.createChart(timestamps);
-        // If session end is less than 30 seconds from now, turn on updating (expect active session)
-        if( moment().diff(moment(this.currentSession.endDate,'DD.MM.YYYY HH:mm:ss'), 'seconds') < 30  ) {
+        // If session end is less than 60 seconds from now, turn on updating (expect active session)
+        if( moment().diff(moment(this.currentSession.endDate), 'seconds') < 60  ) {
             this.toggleUpdateData();
         }
     },
