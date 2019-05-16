@@ -20,7 +20,21 @@ let MapViewModule = {
             responsive: true,
             ajax: {
                 url: `/api/sessions/shared/${this.shareId}`,
-                dataSrc: ''
+                dataSrc: function (json) {
+                    var return_data = new Array();
+                    for(var i=0;i< json.length; i++){
+                      return_data.push({
+                        'id': json[i].id,
+                        'name': json[i].name,
+                        'startDate': moment(json[i].startDate).format('DD.MM.YYYY HH:mm:ss'),
+                        'endDate': moment(json[i].endDate).format('DD.MM.YYYY HH:mm:ss'),
+                        'duration': json[i].duration,
+                        'startLocation': json[i].startLocation,
+                        'endLocation': json[i].endLocation
+                      })
+                    }
+                    return return_data;
+                  }
             },
             columns: [
                 { data: 'name' },
@@ -67,19 +81,19 @@ let MapViewModule = {
         this.$selectSessionModal = $('#selectSessionModal');
         this.$sessionName = $('#sessionName');
         this.$chosenSelects = $(".chosen-select");
-        this.$toggleUpdate = $('#toggleUpdate');
+        this.$liveIndicator = $('#liveIndicator');
     },
     bindEvents: function() {
         $(document).ajaxStart( this.showLoadOverlay.bind(this) );
         $(document).ajaxStop( this.hideLoadOverlay.bind(this) );
         this.$pidSelectMap.on('change', () => { this.map.drawSession(this.currentSession) });
         this.$pidSelectChart.on('change', this.plotChart.bind(this) );
-        this.$toggleUpdate.on("click", this.toggleUpdateData.bind(this) );
     },
     toggleUpdateData: function () {
         if(this.updating) {
             clearInterval(this.updateInterval);
             this.updateInterval = null;
+            this.$liveIndicator.toggleClass( "d-none" );
             this.updating = false;
         }
         else {
@@ -96,6 +110,7 @@ let MapViewModule = {
                 this.chart.data.labels = timestamps;
                 this.plotChart();
             }.bind(this), 5000);
+            this.$liveIndicator.toggleClass( "d-none" );
             this.updating = true;
         }
     },
@@ -114,10 +129,9 @@ let MapViewModule = {
         let timestamps = this.currentSession.Logs.map(log => moment(log.timestamp).format("HH:mm:ss"));
         if(this.chart) this.chart.destroy();
         this.createChart(timestamps);
-        // If session end is less than 30 seconds from now, turn on updating (expect active session)
-        if( moment().diff(moment(this.currentSession.endDate,'dd.mm.yyyy HH:mm:ss'), 'seconds') < 30  ) {
+        // If session end is less than 60 seconds from now, turn on updating (expect active session)
+        if( moment().diff(moment(this.currentSession.endDate), 'seconds') < 60  ) {
             this.toggleUpdateData();
-            this.$toggleUpdate.prop( "checked", true );
         }
     },
     updatePidSelect: function(session) {
