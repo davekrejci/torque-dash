@@ -358,14 +358,9 @@ async function addStartEndData(sessions) {
         });
         let duration = moment.duration(lastLog[0].timestamp - firstLog[0].timestamp);
 
-        sessions.dataValues.startDate = moment(firstLog[0].timestamp).format('DD.MM.YYYY HH:mm:ss');
-        sessions.dataValues.endDate = moment(lastLog[0].timestamp).format('DD.MM.YYYY HH:mm:ss');
-        sessions.dataValues.duration = {
-            days: duration.days(),
-            hours: duration.hours(),
-            minutes: duration.minutes(),
-            seconds: duration.seconds()
-        };
+        sessions.dataValues.startDate = firstLog[0].timestamp;
+        sessions.dataValues.endDate = lastLog[0].timestamp;
+        sessions.dataValues.duration = duration.format('D [day] HH [hour] mm [minute] ss [second]');
     }
 }
 

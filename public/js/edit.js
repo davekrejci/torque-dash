@@ -65,7 +65,21 @@ let editModule = {
             responsive: true,
             ajax: {
                 url: '/api/sessions',
-                dataSrc: ''
+                dataSrc: function (json) {
+                    var return_data = new Array();
+                    for(var i=0;i< json.length; i++){
+                      return_data.push({
+                        'id': json[i].id,
+                        'name': json[i].name,
+                        'startDate': moment(json[i].startDate).format('DD.MM.YYYY HH:mm:ss'),
+                        'endDate': moment(json[i].endDate).format('DD.MM.YYYY HH:mm:ss'),
+                        'duration': json[i].duration,
+                        'startLocation': json[i].startLocation,
+                        'endLocation': json[i].endLocation
+                      })
+                    }
+                    return return_data;
+                  }
             },
             columns: [
                 { data: 'name' },
@@ -287,17 +301,11 @@ let editModule = {
     },
     renderSessionInfo: function() {
         this.$sessionInfoName.text(this.session.name);
-        this.$sessionInfoStartDate.text(this.session.startDate);
-        this.$sessionInfoEndDate.text(this.session.endDate);
+        this.$sessionInfoStartDate.text(moment(this.session.startDate).format('DD.MM.YYYY HH:mm:ss'));
+        this.$sessionInfoEndDate.text(moment(this.session.endDate).format('DD.MM.YYYY HH:mm:ss'));
         this.$sessionInfoStartLocation.text(this.session.startLocation);
         this.$sessionInfoEndLocation.text(this.session.endLocation);
-        // format duration
-        let duration = '';
-        if(this.session.duration.days)     duration += ` ${this.session.duration.days}days`;
-        if(this.session.duration.hours)    duration += ` ${this.session.duration.hours}h`;
-        if(this.session.duration.minutes)  duration += ` ${this.session.duration.minutes}min`;
-        if(this.session.duration.seconds)  duration += ` ${this.session.duration.seconds}sec`;
-        this.$sessionInfoDuration.text(duration);
+        this.$sessionInfoDuration.text(this.session.duration);
     },
     drawSession: function() {
         this.map.drawSession(this.session);
