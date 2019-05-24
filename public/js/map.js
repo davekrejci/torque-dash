@@ -51,9 +51,18 @@ class Map {
         new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
         // Resize map on width change (resizeobserver only works in webkit atm)
-        new ResizeObserver(() => {
-            this.map.invalidateSize();
-        }).observe(document.getElementById(container));
+        if ('ResizeObserver' in window) {
+            new ResizeObserver(() => {
+                this.map.invalidateSize();
+                console.log('resizing!');
+            }).observe(document.getElementById(container));
+          }
+          else {
+            window.addEventListener('resize', () => {
+                this.map.invalidateSize();
+                console.log('resizing!');
+            })
+          }
 
     }
 }
