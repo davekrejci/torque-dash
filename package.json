@@ -26,7 +26,7 @@
     "express-session": "^1.15.6",
     "joi": "^14.3.1",
     "lodash": "^4.17.13",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "moment-duration-format": "^2.2.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
